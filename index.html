@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio 3 — Serie de Fourier en MATLAB y Python | EPIT UNSA</title>
+
+  <!-- Plotly.js CDN -->
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+  <!-- KaTeX CDN para renderizado de fórmulas LaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Hoja de estilos separada -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Canvas animado de fondo con señales desenfocadas -->
+  <canvas id="bg-signals-canvas"></canvas>
+
+  <!-- Barra de progreso superior -->
+  <div id="progress-bar"></div>
+
+  <!-- Encabezado y Navbar superior -->
+  <header>
+    <div class="header-left">
+      <div class="brand-badge">⚡ FOURIER LAB</div>
+
+      <!-- Menú desplegable para acceso rápido -->
+      <div class="dropdown-wrapper">
+        <button class="menu-trigger-btn" onclick="toggleDropdownMenu()">
+          <span>☰ Secciones</span>
+          <span style="font-size:0.65rem; color:var(--color-ash);">▼</span>
+        </button>
+        <div class="dropdown-menu" id="sections-dropdown">
+          <div class="dropdown-item active" onclick="goToSlide(0)">
+            <div class="dropdown-badge">0</div>
+            <div class="dropdown-info">
+              <span class="dropdown-title">Portada Institucional</span>
+              <span class="dropdown-speaker">UNSA — EPIT Telecomunicaciones</span>
+            </div>
+          </div>
+          <div class="dropdown-item" onclick="goToSlide(1)">
+            <div class="dropdown-badge">1</div>
+            <div class="dropdown-info">
+              <span class="dropdown-title">Puntos 1, 2 y 3 (M = 10)</span>
+              <span class="dropdown-speaker">Zaul Francisco Uturunco Cuela</span>
+            </div>
+          </div>
+          <div class="dropdown-item" onclick="goToSlide(2)">
+            <div class="dropdown-badge">2</div>
+            <div class="dropdown-info">
+              <span class="dropdown-title">Punto 4 (Película & Reconstrucción)</span>
+              <span class="dropdown-speaker">Franco Arturo Gutierrez Ccolqque</span>
+            </div>
+          </div>
+          <div class="dropdown-item" onclick="goToSlide(3)">
+            <div class="dropdown-badge">3</div>
+            <div class="dropdown-info">
+              <span class="dropdown-title">Punto 5a (M = 20)</span>
+              <span class="dropdown-speaker">Alex Cesar Quispe Yncarroque</span>
+            </div>
+          </div>
+          <div class="dropdown-item" onclick="goToSlide(4)">
+            <div class="dropdown-badge">4</div>
+            <div class="dropdown-info">
+              <span class="dropdown-title">Punto 5b (M = 50 & Gibbs)</span>
+              <span class="dropdown-speaker">Benjamín Eduardo Quispe Flores</span>
+            </div>
+          </div>
+          <div class="dropdown-item" onclick="goToSlide(5)">
+            <div class="dropdown-badge">5</div>
+            <div class="dropdown-info">
+              <span class="dropdown-title">Punto 6a (Rectificador num = 20)</span>
+              <span class="dropdown-speaker">Henry Andre Gutierrez Barrionuevo</span>
+            </div>
+          </div>
+          <div class="dropdown-item" onclick="goToSlide(6)">
+            <div class="dropdown-badge">6</div>
+            <div class="dropdown-info">
+              <span class="dropdown-title">Punto 7 (num = 40 y 60)</span>
+              <span class="dropdown-speaker">Gianluigi Jeremy Villalta Checalla</span>
+            </div>
+          </div>
+          <div class="dropdown-item" onclick="goToSlide(7)">
+            <div class="dropdown-badge">7</div>
+            <div class="dropdown-info">
+              <span class="dropdown-title">Conclusiones & Síntesis</span>
+              <span class="dropdown-speaker">MATLAB vs Python</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navegación por pestañas horizontales en el Navbar -->
+    <nav class="header-center-nav">
+      <button class="nav-pill active" onclick="goToSlide(0)"><span class="nav-pill-num">0.</span> Portada</button>
+      <button class="nav-pill" onclick="goToSlide(1)"><span class="nav-pill-num">1.</span> Puntos 1-3 (Zaul)</button>
+      <button class="nav-pill" onclick="goToSlide(2)"><span class="nav-pill-num">2.</span> Punto 4 (Franco)</button>
+      <button class="nav-pill" onclick="goToSlide(3)"><span class="nav-pill-num">3.</span> Punto 5a (Alex)</button>
+      <button class="nav-pill" onclick="goToSlide(4)"><span class="nav-pill-num">4.</span> Punto 5b (Benjamín)</button>
+      <button class="nav-pill" onclick="goToSlide(5)"><span class="nav-pill-num">5.</span> Punto 6a (Henry)</button>
+      <button class="nav-pill" onclick="goToSlide(6)"><span class="nav-pill-num">6.</span> Punto 7 (Jeremy)</button>
+      <button class="nav-pill" onclick="goToSlide(7)"><span class="nav-pill-num">7.</span> Conclusiones</button>
+    </nav>
+
+    <!-- Controles de Exposición -->
+    <div class="header-right">
+      <div class="nav-btn" id="slide-indicator"
+        style="min-width:75px; justify-content:center; font-family:var(--font-mono);">Slide 1 / 8</div>
+      <button class="nav-btn" id="btn-prev" title="Anterior (←)">←</button>
+      <button class="nav-btn" id="btn-next" title="Siguiente (→)">→</button>
+      <button class="nav-btn" id="btn-fullscreen" title="Pantalla Completa (F)">⛶</button>
+    </div>
+  </header>
+
+  <!-- Escenario Principal de Diapositivas -->
+  <main id="main-viewport">
+
+    <!-- ============================================================== -->
+    <!-- SLIDE 0: PORTADA INSTITUCIONAL CON LOGOS UNSA Y EPIT -->
+    <!-- ============================================================== -->
+    <section class="slide active" id="slide-0">
+      <div class="portada-wrapper">
+
+        <!-- Bloque Institucional con Logos a los Costados del Título -->
+        <div class="institution-header">
+          <img src="img/Escudo_UNSA.png" alt="Escudo Universidad Nacional de San Agustín de Arequipa" class="uni-logo">
+          <div class="institution-text">
+            <span class="institution-title">Universidad Nacional de San Agustín de Arequipa</span>
+            <span class="institution-sub">Escuela Profesional de Ingeniería de Telecomunicaciones</span>
+            <span style="font-size:0.85rem; color:var(--color-fog);">Curso: Señales y Sistemas — Semestre Académico
+              2026</span>
+          </div>
+          <img src="img/LOGO_EPIT.png" alt="Logo Escuela Profesional de Ingeniería de Telecomunicaciones"
+            class="uni-logo">
+        </div>
+
+        <div class="portada-badge">📡 Laboratorio 3 — Serie de Fourier en MATLAB y Python</div>
+        <h1 class="portada-title">Análisis Numérico de la Serie de Fourier</h1>
+        <p class="portada-subtitle">
+          Onda cuadrada de $170\text{ V} \text{ @ } 60\text{ Hz}$ y rectificador de onda completa — Cálculo numérico de
+          coeficientes con $\text{trapz}$, reconstrucción armónica y espectros de amplitud y fase
+        </p>
+
+        <!-- Cuadrícula de Integrantes Numerados con Roles y Asignaciones -->
+        <div class="members-grid">
+          <div class="member-card" onclick="goToSlide(5)">
+            <div class="member-num">1</div>
+            <div class="member-info">
+              <h4>Gutierrez Barrionuevo, Henry Andre</h4>
+              <p>Punto 6a — Rectificador de Onda Completa ($\text{num} = 20$) & Componente DC</p>
+            </div>
+          </div>
+          <div class="member-card" onclick="goToSlide(2)">
+            <div class="member-num">2</div>
+            <div class="member-info">
+              <h4>Gutierrez Ccolqque, Franco Arturo</h4>
+              <p>Punto 4 — Reconstrucción y Película de Fourier ($M = 1 \dots 10$ armónicos)</p>
+            </div>
+          </div>
+          <div class="member-card" onclick="goToSlide(4)">
+            <div class="member-num">3</div>
+            <div class="member-info">
+              <h4>Quispe Flores, Benjamín Eduardo</h4>
+              <p>Punto 5b — Onda Cuadrada con $M = 50$ & Fenómeno de Gibbs</p>
+            </div>
+          </div>
+          <div class="member-card" onclick="goToSlide(3)">
+            <div class="member-num">4</div>
+            <div class="member-info">
+              <h4>Quispe Yncarroque, Alex Cesar</h4>
+              <p>Punto 5a — Incremento de Armónicos a $M = 20$ (Hasta $1200\text{ Hz}$)</p>
+            </div>
+          </div>
+          <div class="member-card" onclick="goToSlide(1)">
+            <div class="member-num">5</div>
+            <div class="member-info">
+              <h4>Uturunco Cuela, Zaul Francisco</h4>
+              <p>Puntos 1, 2 y 3 — Onda Cuadrada Base, $\text{trapz}$ y Espectro ($M = 10$)</p>
+            </div>
+          </div>
+          <div class="member-card" onclick="goToSlide(6)">
+            <div class="member-num">6</div>
+            <div class="member-info">
+              <h4>Villalta Checalla, Gianluigi Jeremy</h4>
+              <p>Punto 7 — Rectificador con $\text{num} = 40$ y $60$ Armónicos & Invarianza DC</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="start-btn" onclick="goToSlide(1)">
+          Comenzar Exposición →
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SLIDE 1: PUNTOS 1, 2 Y 3 (ZAUL UTURUNCO) -->
+    <!-- ============================================================== -->
+    <section class="slide" id="slide-1">
+      <div class="slide-head">
+        <div class="slide-title-row">
+          <h2 class="slide-title">Puntos 1, 2 y 3 — Definición de Onda Cuadrada, Integración Numérica con trapz y
+            Espectro (M = 10)</h2>
+          <span class="speaker-pill">Zaul Francisco Uturunco Cuela</span>
+        </div>
+        <div class="meta-cards-row">
+          <div class="meta-card">
+            <strong>Objetivo del Punto</strong>
+            Definir la señal cuadrada de $170\text{ V}$ a $60\text{ Hz}$ con $N = 100\,000$ muestras; calcular los
+            coeficientes de Fourier $a_0, a_i, b_i$ usando la regla trapezoidal numérica $\text{trapz}$ para $M = 10$
+            armónicos y graficar la señal en el dominio temporal y su espectro de amplitud discreto.
+          </div>
+          <div class="meta-card theory">
+            <strong>Fundamento Teórico (LaTeX)</strong>
+            Serie trigonométrica de Fourier: $v(t) = \frac{a_0}{T} + \sum_{n=1}^\infty \left[ a_n \cos(n\omega_0 t) +
+            b_n \sin(n\omega_0 t) \right]$, con $\omega_0 = 2\pi f_0 = 120\pi\text{ rad/s}$.<br>
+            Por simetría impar de media onda ($v(t + T/2) = -v(t)$): el nivel DC se anula $a_0 = \int_0^T v(t)\,dt = 0$,
+            los coeficientes pares son nulos ($a_n = 0$), y los impares son $b_n = \frac{4A}{n\pi}$, con amplitud $c_n =
+            \sqrt{a_n^2 + b_n^2}$.
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body-grid">
+        <!-- Columna Izquierda: Código y Terminal -->
+        <div class="col-code">
+          <div class="code-container">
+            <div class="code-tabs-header">
+              <div class="tabs-group">
+                <button class="tab-btn active" onclick="switchCodeTab('code1', 'matlab', this)">MATLAB (ALL.m)</button>
+                <button class="tab-btn" onclick="switchCodeTab('code1', 'python', this)">Python (all.py)</button>
+              </div>
+              <button class="copy-btn" onclick="copyCurrentCode('code1')">📋 Copiar</button>
+            </div>
+            <div class="code-body" id="code1-content"></div>
+          </div>
+
+          <div class="terminal-container">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <div class="dot dot-red"></div>
+                <div class="dot dot-yellow"></div>
+                <div class="dot dot-green"></div>
+              </div>
+              <span class="terminal-title">MATLAB & Python CLI Output — Puntos 1, 2 y 3</span>
+            </div>
+            <div class="terminal-body">
+              <span class="cmd">&gt;&gt; ALL</span><br>
+              PUNTOS 1, 2 Y 3: Onda cuadrada (M = 10)<br>
+              <span class="info">Calculando coeficientes con trapz(t, v)...</span><br>
+              <span class="ans">a0 = 0.0000 V</span> (Simetría de media onda perfecta)<br>
+              Armónico n=1 (60 Hz): b1 = 216.4507 V &rarr; <span class="ans">c1 = 216.4507 V</span><br>
+              Armónico n=2 (120 Hz): b2 = 0.0000 V &rarr; c2 = 0.0000 V (Par nulo)<br>
+              Armónico n=3 (180 Hz): b3 = 72.1502 V &rarr; <span class="ans">c3 = 72.1502 V</span><br>
+              Armónico n=5 (300 Hz): b5 = 43.2901 V &rarr; <span class="ans">c5 = 43.2901 V</span><br>
+              Armónico n=7 (420 Hz): b7 = 30.9215 V &rarr; <span class="ans">c7 = 30.9215 V</span><br>
+              Armónico n=9 (540 Hz): b9 = 24.0500 V &rarr; <span class="ans">c9 = 24.0500 V</span><br>
+              <span class="info">Puntos 1, 2 y 3 completados con éxito.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: Gráfica Plotly e Interpretación -->
+        <div class="col-plot">
+          <div class="plot-card">
+            <div class="plot-controls">
+              <span class="plot-title">Señal Temporal v(t) &amp; Espectro Stem de Amplitud (M = 10)</span>
+              <span style="font-size:0.8rem; color:var(--color-fog);">Ejes: $0 \le t \le 1/60\text{ s}$ &bull; $0 \le f
+                \le 600\text{ Hz}$</span>
+            </div>
+            <div class="plot-container" id="plot-slide-1"></div>
+          </div>
+
+          <div class="interp-card">
+            <strong>Interpretación de la Gráfica</strong>
+            • La onda cuadrada de $\pm 170\text{ V}$ posee exclusivamente <strong>armónicos impares</strong> ($60, 180,
+            300, 420, 540\text{ Hz}$); todos los componentes pares son estrictamente nulos.<br>
+            • Las amplitudes decaen de forma asintótica como $\mathbf{1/n}$, lo cual es característico de señales
+            discontinuas con saltos finitos.<br>
+            • La componente continua $a_0 \approx 0\text{ V}$ confirma que las áreas positiva y negativa se cancelan
+            exactamente en el periodo $T = 1/60\text{ s}$.
+          </div>
+        </div>
+      </div>
+
+      <div class="telecom-banner">
+        <div class="telecom-icon">📡</div>
+        <div class="telecom-content">
+          <strong>Aplicación en Ingeniería en Telecomunicaciones:</strong>
+          Los relojes de sincronización (clocks) y secuencias de pulsos binarios PCM en sistemas digitales son ondas
+          cuadradas. Esta descomposición espectral permite determinar el <strong>ancho de banda de canal
+            indispensable</strong> para evitar distorsiones severas y evaluar la Distorsión Armónica Total (THD) en
+          líneas de transmisión.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SLIDE 2: PUNTO 4 (FRANCO GUTIERREZ) -->
+    <!-- ============================================================== -->
+    <section class="slide" id="slide-2">
+      <div class="slide-head">
+        <div class="slide-title-row">
+          <h2 class="slide-title">Punto 4 — Reconstrucción vf(t) y Película de Aproximación de Fourier (M = 1 a 10)</h2>
+          <span class="speaker-pill">Franco Arturo Gutierrez Ccolqque</span>
+        </div>
+        <div class="meta-cards-row">
+          <div class="meta-card">
+            <strong>Objetivo del Punto</strong>
+            Reconstruir la onda cuadrada sumando progresivamente armónicos con funciones $\cos$ y $\sin$, visualizando
+            la síntesis acumulativa mediante una película animada (equivalente a $\text{getframe}$ y $\text{movie}$ en
+            MATLAB).
+          </div>
+          <div class="meta-card theory">
+            <strong>Fundamento Teórico (LaTeX)</strong>
+            Aproximación armónica finita: $v_f(t, M) = \frac{a_0}{T} + \sum_{i=1}^M \left[ a_i \cos(i\omega_0 t) + b_i
+            \sin(i\omega_0 t) \right]$.<br>
+            Para $M = 1$, la aproximación es un seno fundamental puro de amplitud $b_1 = \frac{4(170)}{\pi} \approx
+            216.45\text{ V}$. Conforme se añaden armónicos impares ($M = 3, 5, 7, 9$), la interferencia constructiva y
+            destructiva aplana la meseta y reduce el tiempo de subida en los flancos.
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body-grid">
+        <div class="col-code">
+          <div class="code-container">
+            <div class="code-tabs-header">
+              <div class="tabs-group">
+                <button class="tab-btn active" onclick="switchCodeTab('code2', 'matlab', this)">MATLAB (ALL.m)</button>
+                <button class="tab-btn" onclick="switchCodeTab('code2', 'python', this)">Python (all.py)</button>
+              </div>
+              <button class="copy-btn" onclick="copyCurrentCode('code2')">📋 Copiar</button>
+            </div>
+            <div class="code-body" id="code2-content"></div>
+          </div>
+
+          <div class="terminal-container">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <div class="dot dot-red"></div>
+                <div class="dot dot-yellow"></div>
+                <div class="dot dot-green"></div>
+              </div>
+              <span class="terminal-title">MATLAB CLI — Generación de Película (getframe & movie)</span>
+            </div>
+            <div class="terminal-body">
+              <span class="cmd">&gt;&gt; ALL</span><br>
+              PUNTO 4: Película de aproximación (M = 10)<br>
+              <span class="info">Sintetizando armónicos acumulados...</span><br>
+              Cuadro 1/10: Armónico 1 (60 Hz) &rarr; Senoide fundamental de 216.45 V pico<br>
+              Cuadro 3/10: Suma de armónico 3 (180 Hz) &rarr; Comienza a aplanar la cresta a 180 V<br>
+              Cuadro 5/10: Suma de armónico 5 (300 Hz) &rarr; Flancos más verticales<br>
+              Cuadro 9/10: Suma de armónico 9 (540 Hz) &rarr; Conmutación rápida con rizado<br>
+              <span class="ans">movie(fig2, Mov, 1): Película reproducida con éxito.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-plot">
+          <div class="plot-card">
+            <div class="plot-controls">
+              <div class="slider-control">
+                <label for="slider-m-p4"><strong>Armónicos acumulados:</strong></label>
+                <input type="range" id="slider-m-p4" min="1" max="10" value="10" oninput="updatePlotPunto4(this.value)">
+                <span id="slider-m-val" style="color:var(--color-acid-lime); font-weight:700; min-width:45px;">M =
+                  10</span>
+              </div>
+              <div class="control-actions">
+                <button class="control-btn" id="btn-play-movie" onclick="toggleMovieAnimation()">▶ Reproducir
+                  Película</button>
+              </div>
+            </div>
+            <div class="plot-container" id="plot-slide-2"></div>
+          </div>
+
+          <div class="interp-card">
+            <strong>Interpretación de la Gráfica</strong>
+            • Con $M = 1$, la señal es un seno de $216.45\text{ V}$ pico que excede notablemente la amplitud nominal de
+            $170\text{ V}$.<br>
+            • Al sumar los armónicos $3, 5, 7, 9$, las crestas de orden superior restan voltaje en el centro de la
+            meseta y lo concentran cerca de los flancos de conmutación.<br>
+            • Cerca de las discontinuidades ($t = 0$ y $t = T/2$) emergen sobreoscilaciones visibles precursoras del
+            fenómeno de Gibbs.
+          </div>
+        </div>
+      </div>
+
+      <div class="telecom-banner">
+        <div class="telecom-icon">📻</div>
+        <div class="telecom-content">
+          <strong>Aplicación en Ingeniería en Telecomunicaciones:</strong>
+          Síntesis Digital Directa (DDS) y Conversores Digital-Analógico (DAC): Los generadores arbitrarios sintetizan
+          formas de onda sumando componentes senoidales. Esta animación ilustra cómo un filtro reconstructor paso bajo
+          (anti-aliasing) suaviza escalones analógicos y el impacto de la limitación armónica sobre la tasa de error
+          binario (BER).
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SLIDE 3: PUNTO 5a (ALEX QUISPE) -->
+    <!-- ============================================================== -->
+    <section class="slide" id="slide-3">
+      <div class="slide-head">
+        <div class="slide-title-row">
+          <h2 class="slide-title">Punto 5a — Incremento de Armónicos a M = 20 y Extensión Espectral (Hasta 1200 Hz)</h2>
+          <span class="speaker-pill">Alex Cesar Quispe Yncarroque</span>
+        </div>
+        <div class="meta-cards-row">
+          <div class="meta-card">
+            <strong>Objetivo del Punto</strong>
+            Duplicar el número de armónicos computados a $M = 20$ para evaluar la mejora en la definición temporal de la
+            onda cuadrada y analizar el espectro extendido de armónicos impares hasta $1200\text{ Hz}$.
+          </div>
+          <div class="meta-card theory">
+            <strong>Fundamento Teórico (LaTeX)</strong>
+            Ampliación del espectro de Fourier: Al duplicar de $M = 10$ a $M = 20$, se incorporan los armónicos impares
+            $n = 11, 13, 15, 17, 19$ (frecuencias hasta $1140\text{ Hz}$).<br>
+            Amplitud del armónico 19: $b_{19} = \frac{4(170)}{19\pi} \approx 11.39\text{ V}$. Mayor ancho de banda
+            permite representar flancos con tiempos de subida ($t_r$) significativamente menores.
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body-grid">
+        <div class="col-code">
+          <div class="code-container">
+            <div class="code-tabs-header">
+              <div class="tabs-group">
+                <button class="tab-btn active" onclick="switchCodeTab('code3', 'matlab', this)">MATLAB (ALL.m)</button>
+                <button class="tab-btn" onclick="switchCodeTab('code3', 'python', this)">Python (all.py)</button>
+              </div>
+              <button class="copy-btn" onclick="copyCurrentCode('code3')">📋 Copiar</button>
+            </div>
+            <div class="code-body" id="code3-content"></div>
+          </div>
+
+          <div class="terminal-container">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <div class="dot dot-red"></div>
+                <div class="dot dot-yellow"></div>
+                <div class="dot dot-green"></div>
+              </div>
+              <span class="terminal-title">MATLAB & Python CLI Output — Punto 5a (M = 20)</span>
+            </div>
+            <div class="terminal-body">
+              <span class="cmd">&gt;&gt; ALL</span><br>
+              PUNTO 5a: Onda cuadrada (M = 20)<br>
+              <span class="info">20 armónicos evaluados (Frecuencia máxima evaluada: 1200 Hz)</span><br>
+              Armónico n=11 (660 Hz): <span class="ans">c11 = 19.6773 V</span><br>
+              Armónico n=13 (780 Hz): <span class="ans">c13 = 16.6501 V</span><br>
+              Armónico n=15 (900 Hz): <span class="ans">c15 = 14.4300 V</span><br>
+              Armónico n=17 (1020 Hz): <span class="ans">c17 = 12.7324 V</span><br>
+              Armónico n=19 (1140 Hz): <span class="ans">c19 = 11.3921 V</span><br>
+              <span class="info">Punto 5a completado con éxito.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-plot">
+          <div class="plot-card">
+            <div class="plot-controls">
+              <span class="plot-title">Simulación con M = 20 Armónicos</span>
+              <div class="control-actions">
+                <button class="control-btn active" id="btn-p5a-dual" onclick="setViewP5a('dual')">Señal +
+                  Espectro</button>
+                <button class="control-btn" id="btn-p5a-approx" onclick="setViewP5a('approx')">Aproximación
+                  vf(t)</button>
+              </div>
+            </div>
+            <div class="plot-container" id="plot-slide-3"></div>
+          </div>
+
+          <div class="interp-card">
+            <strong>Interpretación de la Gráfica</strong>
+            • La meseta de la onda se nivela con mucha mayor uniformidad en torno a $\pm 170\text{ V}$ respecto a $M =
+            10$.<br>
+            • Los flancos de subida y bajada presentan una pendiente mucho más pronunciada, reduciendo drásticamente el
+            tiempo de transición.<br>
+            • Las oscilaciones residuales son de mayor frecuencia ($\approx 19 \times 60\text{ Hz} = 1140\text{ Hz}$) y
+            quedan confinadas más cerca de las discontinuidades.
+          </div>
+        </div>
+      </div>
+
+      <div class="telecom-banner">
+        <div class="telecom-icon">📶</div>
+        <div class="telecom-content">
+          <strong>Aplicación en Ingeniería en Telecomunicaciones:</strong>
+          Regla de Hartley y Ancho de Banda de Canal ($t_r \approx 0.35 / \text{BW}$): Para duplicar la tasa de
+          transmisión de pulsos binarios sin distorsión de fase, es estrictamente indispensable duplicar el ancho de
+          banda del canal. $M = 20$ representa un enlace con mayor capacidad espectral y menor dispersión temporal.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SLIDE 4: PUNTO 5b (BENJAMÍN QUISPE) -->
+    <!-- ============================================================== -->
+    <section class="slide" id="slide-4">
+      <div class="slide-head">
+        <div class="slide-title-row">
+          <h2 class="slide-title">Punto 5b — Aproximación con M = 50 y Estudio Riguroso del Fenómeno de Gibbs</h2>
+          <span class="speaker-pill">Benjamín Eduardo Quispe Flores</span>
+        </div>
+        <div class="meta-cards-row">
+          <div class="meta-card">
+            <strong>Objetivo del Punto</strong>
+            Calcular la serie de Fourier con $M = 50$ armónicos (hasta $3000\text{ Hz}$), comprobar la convergencia
+            uniforme en las zonas continuas y demostrar la persistencia del Fenómeno de Gibbs en los saltos.
+          </div>
+          <div class="meta-card theory">
+            <strong>Fundamento Teórico (LaTeX)</strong>
+            Fenómeno de Gibbs: En una discontinuidad finita de salto $2A = 340\text{ V}$, la suma truncada sobrepasa el
+            valor nominal en una proporción analítica de:<br>
+            $$\text{Sobreoscilación} = \frac{1}{\pi}\int_0^\pi \frac{\sin x}{x}\,dx - \frac{1}{2} \approx 8.94898\%
+            \implies V_{\max} \approx 170 \times 1.0895 \approx 185.21\text{ V}$$
+            Propiedad fundamental: El sobrepico del $\approx 8.95\%$ NO desaparece al aumentar $M$; únicamente se
+            comprime en el tiempo hacia la discontinuidad ($t \to 0^+$).
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body-grid">
+        <div class="col-code">
+          <div class="code-container">
+            <div class="code-tabs-header">
+              <div class="tabs-group">
+                <button class="tab-btn active" onclick="switchCodeTab('code4', 'matlab', this)">MATLAB (ALL.m)</button>
+                <button class="tab-btn" onclick="switchCodeTab('code4', 'python', this)">Python (all.py)</button>
+              </div>
+              <button class="copy-btn" onclick="copyCurrentCode('code4')">📋 Copiar</button>
+            </div>
+            <div class="code-body" id="code4-content"></div>
+          </div>
+
+          <div class="terminal-container">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <div class="dot dot-red"></div>
+                <div class="dot dot-yellow"></div>
+                <div class="dot dot-green"></div>
+              </div>
+              <span class="terminal-title">MATLAB & Python CLI Output — Punto 5b (Gibbs)</span>
+            </div>
+            <div class="terminal-body">
+              <span class="cmd">&gt;&gt; ALL</span><br>
+              PUNTO 5b: Onda cuadrada (M = 50)<br>
+              <span class="info">50 armónicos calculados con trapz (Rango: 0 Hz a 3000 Hz)</span><br>
+              Armónico n=49 (2940 Hz): <span class="ans">c49 = 4.4174 V</span><br>
+              Valor nominal de meseta: 170.00 V<br>
+              <span class="ans">Pico máximo registrado vf(t): 185.21 V (+8.95% sobreoscilación)</span><br>
+              <span class="info">Fenómeno de Gibbs verificado experimentalmente.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-plot">
+          <div class="plot-card">
+            <div class="plot-controls">
+              <span class="plot-title">Aproximación M = 50 &amp; Sobrepico de Gibbs</span>
+              <div class="control-actions">
+                <button class="control-btn active" id="btn-p5b-approx" onclick="setViewP5b('approx')">vf(t) y Pico
+                  Gibbs</button>
+                <button class="control-btn" id="btn-p5b-spect" onclick="setViewP5b('spect')">Espectro (3000 Hz)</button>
+              </div>
+            </div>
+            <div class="plot-container" id="plot-slide-4"></div>
+          </div>
+
+          <div class="interp-card">
+            <strong>Comparativa Cuantitativa: M = 10 vs 20 vs 50</strong>
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Parámetro Evaluado</th>
+                  <th>M = 10</th>
+                  <th>M = 20</th>
+                  <th>M = 50</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Armónicos impares sumados</td>
+                  <td>5 armónicos</td>
+                  <td>10 armónicos</td>
+                  <td>25 armónicos</td>
+                </tr>
+                <tr>
+                  <td>Frecuencia máxima evaluada</td>
+                  <td>600 Hz</td>
+                  <td>1,200 Hz</td>
+                  <td>3,000 Hz</td>
+                </tr>
+                <tr>
+                  <td>Planitud en meseta central</td>
+                  <td>Rizado evidente</td>
+                  <td>Rizado leve</td>
+                  <td>Prácticamente perfecta</td>
+                </tr>
+                <tr>
+                  <td>Sobreoscilación de Gibbs</td>
+                  <td class="hl">~185.2 V (+8.95%)</td>
+                  <td class="hl">~185.2 V (+8.95%)</td>
+                  <td class="hl">~185.2 V (+8.95%)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="telecom-banner">
+        <div class="telecom-icon">⚠️</div>
+        <div class="telecom-content">
+          <strong>Aplicación en Ingeniería en Telecomunicaciones:</strong>
+          Filtros Paso Bajo Ideales e Interferencia Intersimbólica (ISI): Un filtro de canal ideal con corte abrupto
+          (brick-wall) genera sobreoscilaciones de Gibbs (ringing sinc) que colisionan con los pulsos contiguos. Por
+          ello, en telecomunicaciones modernas se emplean filtros de Coseno Alzado (Raised Cosine) con decaimiento suave
+          para extinguir el fenómeno de Gibbs y garantizar ISI cero.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SLIDE 5: PUNTO 6a (HENRY GUTIERREZ) -->
+    <!-- ============================================================== -->
+    <section class="slide" id="slide-5">
+      <div class="slide-head">
+        <div class="slide-title-row">
+          <h2 class="slide-title">Punto 6a — Rectificador de Onda Completa: Serie Exponencial de Fourier y Componente DC
+          </h2>
+          <span class="speaker-pill">Henry Andre Gutierrez Barrionuevo</span>
+        </div>
+        <div class="meta-cards-row">
+          <div class="meta-card">
+            <strong>Objetivo del Punto</strong>
+            Calcular numéricamente los coeficientes exponenciales $C_n$ ($n = 0 \dots 19$) para la señal rectificada
+            $g(t) = |120\sqrt{2}\sin(2\pi \cdot 60 t)|$, determinar el valor medio de DC y graficar el espectro de
+            amplitud y fase de los primeros 5 armónicos.
+          </div>
+          <div class="meta-card theory">
+            <strong>Fundamento Teórico (LaTeX)</strong>
+            Coeficientes exponenciales discretizados: $C_n = \frac{1}{N}\sum_{m=1}^N g[m]\,e^{-j\frac{2\pi
+            (n-1)m}{N}}$.<br>
+            Componente continua teórica: $V_{dc,\text{teórico}} = \frac{2V_m}{\pi} = \frac{2(120\sqrt{2})}{\pi} \approx
+            108.0379\text{ V}$.<br>
+            El script obtiene numéricamente $107.5344\text{ V}$; la discrepancia del $0.46\%$ se debe al paso de
+            muestreo finito $\text{inc} = \frac{1}{80 \times 60}$ evaluado en 3 ciclos de la fuente ($t_{\text{num}} =
+            0.05\text{ s}$). El periodo rectificado es $T_r = 1/120\text{ s} \approx 0.00833\text{ s}$ ($0.0333\text{
+            s}$ en 2 ciclos).
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body-grid">
+        <div class="col-code">
+          <div class="code-container">
+            <div class="code-tabs-header">
+              <div class="tabs-group">
+                <button class="tab-btn active" onclick="switchCodeTab('code5', 'matlab', this)">MATLAB (ALL.m)</button>
+                <button class="tab-btn" onclick="switchCodeTab('code5', 'python', this)">Python (all.py)</button>
+              </div>
+              <button class="copy-btn" onclick="copyCurrentCode('code5')">📋 Copiar</button>
+            </div>
+            <div class="code-body" id="code5-content"></div>
+          </div>
+
+          <div class="terminal-container">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <div class="dot dot-red"></div>
+                <div class="dot dot-yellow"></div>
+                <div class="dot dot-green"></div>
+              </div>
+              <span class="terminal-title">MATLAB CLI Output — Rectificador Punto 6a</span>
+            </div>
+            <div class="terminal-body">
+              <span class="cmd">&gt;&gt; ALL</span><br>
+              PUNTO 6a: Rectificador de onda completa (num = 20)<br>
+              valor dc de g(t)<br>
+              ans =<br>
+              &nbsp;&nbsp;&nbsp;<span class="ans">107.5344</span><br>
+              <span class="info">Comparación Teórica:</span><br>
+              $V_{dc,\text{teórico}} = 2V_m/\pi = 2(169.7056)/\pi = $ <span class="ans">108.0379 V</span><br>
+              $V_{dc,\text{numérico}} = $ <span class="ans">107.5344 V</span> (Discrepancia numérica: 0.46%)<br>
+              Amplitud primeros 5 armónicos: [107.53, 0.46, 0.49, 0.55, 0.69] V<br>
+              Fase primeros 5 armónicos: [0.00, 3.13, 3.12, 3.10, 3.09] rad ($\approx \pi$)
+            </div>
+          </div>
+        </div>
+
+        <div class="col-plot">
+          <div class="plot-card">
+            <div class="plot-controls">
+              <span class="plot-title">Espectro de Amplitud y Fase (0 a 300 Hz)</span>
+              <span style="font-size:0.8rem; color:var(--color-fog);">Primeros 5 armónicos ($0, 60, 120, 180, 240\text{
+                Hz}$)</span>
+            </div>
+            <div class="plot-container" id="plot-slide-5"></div>
+          </div>
+
+          <div class="interp-card">
+            <strong>Interpretación de la Gráfica</strong>
+            • El espectro de amplitud está dominado por la componente continua de frecuencia cero ($f = 0\text{ Hz}$)
+            con <strong>$107.53\text{ V}$</strong>, donde reside la potencia útil rectificada.<br>
+            • Las componentes alternas a $60, 120, 180, 240\text{ Hz}$ poseen magnitudes pequeñas ($< 1\text{ V}$),
+              representando el rizado residual propio de la rectificación.<br>
+              • El espectro de fase es $0\text{ rad}$ en DC y se mantiene casi constante en torno a <strong>$\pi\text{
+                rad}$ ($\approx 3.14\text{ rad}$)</strong> en los armónicos AC, reflejando el signo negativo de los
+              cosenos en la serie: $g(t) = \frac{2V_m}{\pi} - \frac{4V_m}{\pi}\sum_{k=1}^\infty \frac{\cos(2k\omega_1
+              t)}{4k^2-1}$.
+          </div>
+        </div>
+      </div>
+
+      <div class="telecom-banner">
+        <div class="telecom-icon">🔌</div>
+        <div class="telecom-content">
+          <strong>Aplicación en Ingeniería en Telecomunicaciones:</strong>
+          Fuentes de Alimentación DC para Estaciones Base y Transceptores: La conversión eficiente de AC a DC energiza
+          amplificadores de potencia RF y procesadores DSP. El análisis espectral del rectificador permite calcular el
+          factor de rizado (ripple factor) y dimensionar filtros LC para suprimir el zumbido de $120\text{ Hz}$ que
+          modularía espuriamente la portadora de transmisión.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SLIDE 6: PUNTO 7 (JEREMY VILLALTA) -->
+    <!-- ============================================================== -->
+    <section class="slide" id="slide-6">
+      <div class="slide-head">
+        <div class="slide-title-row">
+          <h2 class="slide-title">Punto 7 — Rectificador con num = 40 y num = 60 Armónicos: Resolución Espectral e
+            Invarianza DC</h2>
+          <span class="speaker-pill">Gianluigi Jeremy Villalta Checalla</span>
+        </div>
+        <div class="meta-cards-row">
+          <div class="meta-card">
+            <strong>Objetivo del Punto</strong>
+            Incrementar los coeficientes calculados a $\text{num} = 40$ y $\text{num} = 60$, verificar la invarianza
+            estricta de la componente continua DC y comparar la resolución espectral en componentes armónicas
+            superiores.
+          </div>
+          <div class="meta-card theory">
+            <strong>Fundamento Teórico (LaTeX)</strong>
+            Invarianza estricta de la componente DC: $C_0 = \frac{1}{T}\int_0^T g(t)\,dt$. Dado que el valor medio
+            depende exclusivamente del promedio temporal de la señal continua y no de la cantidad de armónicos
+            calculados, $C_0$ permanece rigurosamente constante ($107.5344\text{ V}$) tanto para $\text{num} = 20, 40$
+            como $60$.<br>
+            Aumentar $\text{num}$ expande la ventana de análisis hasta $2340\text{ Hz}$ y $3540\text{ Hz}$, evaluando
+            componentes residuales de alta frecuencia que decaen como $\sim 1/k^2$.
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body-grid">
+        <div class="col-code">
+          <div class="code-container">
+            <div class="code-tabs-header">
+              <div class="tabs-group">
+                <button class="tab-btn active" onclick="switchCodeTab('code6', 'matlab', this)">MATLAB (ALL.m)</button>
+                <button class="tab-btn" onclick="switchCodeTab('code6', 'python', this)">Python (all.py)</button>
+              </div>
+              <button class="copy-btn" onclick="copyCurrentCode('code6')">📋 Copiar</button>
+            </div>
+            <div class="code-body" id="code6-content"></div>
+          </div>
+
+          <div class="terminal-container">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <div class="dot dot-red"></div>
+                <div class="dot dot-yellow"></div>
+                <div class="dot dot-green"></div>
+              </div>
+              <span class="terminal-title">MATLAB CLI Output — Punto 7 (num = 40 y 60)</span>
+            </div>
+            <div class="terminal-body">
+              <span class="cmd">&gt;&gt; ALL</span><br>
+              PUNTO 6b: Rectificador (num = 40) &rarr; valor dc de g(t): ans = <span class="ans">107.5344</span><br>
+              PUNTO 6c: Rectificador (num = 60) &rarr; valor dc de g(t): ans = <span class="ans">107.5344</span><br>
+              <span class="info">Comprobación Matemática:</span><br>
+              <span class="ans">La componente continua DC es estrictamente idéntica para num = 20, 40 y 60.</span><br>
+              Frecuencia máxima alcanzada con num = 60: 3,540 Hz.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-plot">
+          <div class="plot-card">
+            <div class="plot-controls">
+              <span class="plot-title" id="plot-title-p7">Rectificador: Espectros con num = 40 armónicos</span>
+              <div class="control-actions">
+                <button class="control-btn active" id="btn-p7-40" onclick="setViewP7(40)">num = 40</button>
+                <button class="control-btn" id="btn-p7-60" onclick="setViewP7(60)">num = 60</button>
+                <button class="control-btn" id="btn-p7-comp" onclick="setViewP7('all')">Ver Comparativa</button>
+              </div>
+            </div>
+            <div class="plot-container" id="plot-slide-6"></div>
+          </div>
+
+          <div class="interp-card">
+            <strong>Tabla Comparativa: num = 20 vs num = 40 vs num = 60</strong>
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Parámetro Evaluado</th>
+                  <th>num = 20</th>
+                  <th>num = 40</th>
+                  <th>num = 60</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Rango de frecuencias evaluado</td>
+                  <td>0 a 1,140 Hz</td>
+                  <td>0 a 2,340 Hz</td>
+                  <td>0 a 3,540 Hz</td>
+                </tr>
+                <tr>
+                  <td>Valor DC obtenido ($C_0$)</td>
+                  <td class="hl">107.5344 V</td>
+                  <td class="hl">107.5344 V</td>
+                  <td class="hl">107.5344 V</td>
+                </tr>
+                <tr>
+                  <td>Amplitud primeros 5 armónicos</td>
+                  <td>Idéntica</td>
+                  <td>Idéntica</td>
+                  <td>Idéntica</td>
+                </tr>
+                <tr>
+                  <td>Fase armónicos alternos</td>
+                  <td>~3.12 rad ($\pi$)</td>
+                  <td>~3.12 rad ($\pi$)</td>
+                  <td>~3.12 rad ($\pi$)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="telecom-banner">
+        <div class="telecom-icon">🛡️</div>
+        <div class="telecom-content">
+          <strong>Aplicación en Ingeniería en Telecomunicaciones:</strong>
+          Compatibilidad Electromagnética (EMC / EMI) y Fuentes Conmutadas (SMPS): En salas de telecomunicaciones, los
+          armónicos de alta frecuencia de puentes rectificadores inducen ruido conducido y radiado en líneas adyacentes.
+          Analizar hasta 60 armónicos ($3.5\text{ kHz}$) permite certificar normativas internacionales (CISPR/FCC) y
+          dimensionar filtros EMI para blindar el equipamiento sensible.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SLIDE 7: CONCLUSIONES Y COMPARATIVA MATLAB VS PYTHON -->
+    <!-- ============================================================== -->
+    <section class="slide" id="slide-7">
+      <div class="slide-head">
+        <div class="slide-title-row">
+          <h2 class="slide-title">Conclusiones Generales &amp; Matriz Comparativa: MATLAB vs Python</h2>
+          <span class="speaker-pill">Síntesis Grupal</span>
+        </div>
+        <div class="meta-cards-row">
+          <div class="meta-card">
+            <strong>Síntesis del Laboratorio</strong>
+            El cómputo de la Serie de Fourier en ambas plataformas valida la descomposición armónica en señales
+            discontinuas (onda cuadrada) y no lineales continuas a trozos (rectificador), con concordancia numérica
+            exacta (< 0.001% de diferencia). </div>
+              <div class="meta-card theory">
+                <strong>Fenómenos Clave Validados (LaTeX)</strong>
+                • Decaimiento armónico: $\sim 1/n$ en onda cuadrada frente a $\sim 1/n^2$ en rectificador.<br>
+                • Fenómeno de Gibbs: Sobrepico ineludible de $+8.95\%$ en discontinuidades.<br>
+                • Invarianza de $C_0$: La componente continua depende exclusivamente del promedio temporal,
+                manteniéndose idéntica en $107.5344\text{ V}$.
+              </div>
+          </div>
+        </div>
+
+        <div class="slide-body-grid">
+          <div class="col-code">
+            <div class="code-container" style="padding:1.15rem; overflow-y:auto;">
+              <h4 style="color:var(--color-signal-teal); font-size:1rem; margin-bottom:0.75rem;">Matriz Técnica: MATLAB
+                (ALL.m) vs. Python (all.py)</h4>
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Característica</th>
+                    <th>MATLAB (ALL.m)</th>
+                    <th>Python (all.py)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Integración Numérica</strong></td>
+                    <td><code>trapz(t, v)</code> nativo</td>
+                    <td><code>numpy.trapezoid(v, t)</code> (NumPy 2.0+) o <code>np.trapz</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Indexación de Arreglos</strong></td>
+                    <td>Base 1 (<code>1:M</code>, <code>v(1:N/2)</code>)</td>
+                    <td>Base 0 (<code>range(1, M+1)</code>, <code>v[:mid]</code>)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Unidad Imaginaria</strong></td>
+                    <td><code>1j</code> o <code>1i</code></td>
+                    <td><code>1j</code> en tipos complejos nativos</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Visualización & Animación</strong></td>
+                    <td><code>getframe</code> y <code>movie</code> interactivo</td>
+                    <td><code>matplotlib.pyplot</code> estático / exportación PNG / Web Plotly</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Ecosistema & Despliegue</strong></td>
+                    <td>Licencia propietaria, entorno cerrado</td>
+                    <td>Código abierto, compatible con servidores, notebooks y web</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style="margin-top:1rem; font-size:0.9rem; color:var(--color-fog); line-height:1.5;">
+                <strong style="color:var(--color-acid-lime);">Balance Técnico:</strong> Ambos entornos ofrecen precisión
+                matemática equivalente. MATLAB resulta óptimo para prototipado rápido en laboratorio docente por su
+                sintaxis matricial directa, mientras que Python destaca por su integración en pipelines de ciencia de
+                datos y visualización web interactiva moderna.
+              </div>
+            </div>
+          </div>
+
+          <div class="col-plot">
+            <div class="plot-card">
+              <div class="plot-controls">
+                <span class="plot-title">Comparativa de Decaimiento Espectral: Onda Cuadrada (~1/n) vs Rectificador
+                  (~1/n²)</span>
+              </div>
+              <div class="plot-container" id="plot-slide-7"></div>
+            </div>
+
+            <div class="interp-card">
+              <strong>Lecciones Clave para la Ingeniería en Telecomunicaciones</strong>
+              • <strong>Continuidad vs Decaimiento Espectral:</strong> Las discontinuidades de salto en la onda cuadrada
+              provocan un decaimiento lento ($\sim 1/n$), exigiendo gran ancho de banda; el rectificador, al ser
+              continuo a trozos, decae como $\sim 1/n^2$, reduciendo drásticamente emisiones de alta frecuencia.<br>
+              • <strong>Límite de Nyquist:</strong> Ningún medio físico guiado o inalámbrico admite ancho de banda
+              infinito; todo filtro de canal real inducirá sobreoscilaciones de Gibbs si el corte es abrupto.<br>
+              • <strong>Eficiencia de Filtrado:</strong> Identificar con exactitud los armónicos en $120\text{ Hz}$ y
+              $240\text{ Hz}$ permite diseñar filtros de muesca o paso bajo sintonizados óptimamente sin
+              sobredimensionar inductores y condensadores.
+            </div>
+          </div>
+        </div>
+
+        <div class="telecom-banner">
+          <div class="telecom-icon">🎯</div>
+          <div class="telecom-content">
+            <strong>Cierre de Exposición:</strong>
+            El dominio numérico y teórico de la Serie de Fourier constituye el pilar analítico de la Ingeniería en
+            Telecomunicaciones para el diseño, simulación y optimización de sistemas de comunicación modernos.
+          </div>
+        </div>
+    </section>
+
+  </main>
+
+  <!-- Notificación flotante de copiado -->
+  <div class="toast-copied" id="toast">¡Código copiado al portapapeles!</div>
+
+  <!-- Script principal desacoplado -->
+  <script src="script.js"></script>
+</body>
+
+</html>

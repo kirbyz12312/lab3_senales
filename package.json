@@ -1,0 +1,22 @@
+{
+  "name": "lab3-fourier-presentation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Presentación web interactiva sobre el Laboratorio 3 — Serie de Fourier en MATLAB y Python. Escuela Profesional de Ingeniería de Telecomunicaciones - UNSA.",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve ."
+  },
+  "keywords": [
+    "fourier",
+    "matlab",
+    "python",
+    "telecomunicaciones",
+    "unsa",
+    "epit",
+    "gibbs-phenomenon",
+    "plotly"
+  ],
+  "author": "EPIT - UNSA",
+  "license": "MIT"
+}
