@@ -1,7 +1,7 @@
 /* ==========================================================================
-   DSP PRECISION DESIGN SYSTEM - LAB 3 FOURIER PRESENTATION
-   Inspired by FOURIER DSP Deck: Deep Slate, Cyan/Blue/Emerald Accents &
-   Luminous Gradients with Optimized Typography for High-Impact Exposition.
+   DSP SOLAR GOLD & PRECISION GRADIENTS - LAB 3 FOURIER PRESENTATION
+   Theme: Electric Gold / Honey Amber + Atmospheric Cyan, Emerald & Tangerine
+   Balanced High-Contrast Typography & Modern Glassmorphic Elevation
    ========================================================================== */
 
 :root {
@@ -20,46 +20,50 @@
   --text-slate-400: #94a3b8;
   --text-slate-500: #64748b;
 
-  /* DSP Precision Accents */
+  /* Premium Electric Gold & Solar Amber Palette */
+  --color-gold-light: #fef08a;   /* ivory gold highlight */
+  --color-gold: #fde047;         /* radiant electric gold */
+  --color-gold-amber: #facc15;   /* core vibrant golden yellow */
+  --color-amber: #f59e0b;        /* warm honey amber */
+  --color-amber-deep: #d97706;   /* deep rich amber */
+  --color-orange: #fb923c;       /* neon tangerine */
+  --color-coral: #f43f5e;        /* radiant coral rose */
+
+  /* Harmonizing Complementary Accents */
   --color-cyan: #06b6d4;
   --color-cyan-light: #22d3ee;
-  --color-cyan-dark: #0891b2;
-
   --color-blue: #3b82f6;
   --color-blue-light: #60a5fa;
-
   --color-emerald: #10b981;
   --color-emerald-light: #34d399;
-
   --color-indigo: #6366f1;
   --color-indigo-light: #818cf8;
-
   --color-purple: #a855f7;
   --color-purple-light: #c084fc;
 
-  --color-amber: #f59e0b;
-  --color-amber-light: #fbbf24;
+  /* Master Title Gradient: Luminous Solar Gold -> Electric Amber -> Neon Tangerine -> Coral Rose */
+  --title-gradient: linear-gradient(135deg, #ffffff 0%, #fef08a 18%, #facc15 45%, #f59e0b 70%, #fb923c 88%, #f43f5e 100%);
+  --title-gradient-secondary: linear-gradient(135deg, #ffffff 0%, #fef08a 35%, #facc15 100%);
+  
+  /* Luminous Button Gradient */
+  --btn-gold-gradient: linear-gradient(135deg, #fde047 0%, #facc15 35%, #f59e0b 70%, #ea580c 100%);
 
-  --color-rose: #f43f5e;
-
-  /* Exclusive Title Gradient for Lab 3:
-     Electric Sky Blue -> Iris Indigo -> Neon Lavender / Violet -> Rose */
-  --title-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 38%, #c084fc 72%, #f472b6 100%);
-  --title-gradient-secondary: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 45%, #38bdf8 100%);
-  --accent-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #10b981 100%);
+  /* Multi-tone Progress Bar Gradient */
+  --progress-gradient: linear-gradient(90deg, #fde047 0%, #facc15 28%, #fb923c 60%, #38bdf8 100%);
 
   /* Glow Shadows */
-  --glow-cyan: 0 0 25px -4px rgba(6, 182, 212, 0.4);
-  --glow-blue: 0 0 25px -4px rgba(59, 130, 246, 0.4);
-  --glow-emerald: 0 0 25px -4px rgba(16, 185, 129, 0.4);
-  --glow-indigo: 0 0 25px -4px rgba(99, 102, 241, 0.4);
+  --glow-gold: 0 0 25px -4px rgba(250, 204, 21, 0.45);
+  --glow-amber: 0 0 25px -4px rgba(245, 158, 11, 0.45);
+  --glow-cyan: 0 0 25px -4px rgba(6, 182, 212, 0.35);
+  --glow-emerald: 0 0 25px -4px rgba(16, 185, 129, 0.35);
 
   /* Subtle Borders & Glassmorphism */
   --border-subtle: 1px solid rgba(51, 65, 85, 0.55);
   --border-card: 1px solid rgba(51, 65, 85, 0.65);
-  --border-glow-cyan: 1px solid rgba(6, 182, 212, 0.4);
-  --border-glow-emerald: 1px solid rgba(16, 185, 129, 0.4);
-  --border-glow-indigo: 1px solid rgba(99, 102, 241, 0.4);
+  --border-glow-gold: 1px solid rgba(250, 204, 21, 0.4);
+  --border-glow-amber: 1px solid rgba(245, 158, 11, 0.4);
+  --border-glow-cyan: 1px solid rgba(6, 182, 212, 0.35);
+  --border-glow-emerald: 1px solid rgba(16, 185, 129, 0.35);
 
   /* Radii */
   --radius-sm: 6px;
@@ -109,7 +113,7 @@ html, body {
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(6, 182, 212, 0.6);
+  background: rgba(250, 204, 21, 0.6);
 }
 
 /* Background Animated Canvas with Atmospheric Blur */
@@ -125,17 +129,17 @@ html, body {
   opacity: 0.55;
 }
 
-/* Top Progress Bar - Precision Multi-Tone Glow */
+/* Top Progress Bar - Solar Multi-Tone Glow */
 #progress-bar {
   position: fixed;
   top: 0;
   left: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--color-cyan-light), var(--color-blue), var(--color-emerald-light));
+  background: var(--progress-gradient);
   width: 0%;
   z-index: 1000;
   transition: width 0.3s ease;
-  box-shadow: 0 0 14px rgba(6, 182, 212, 0.7);
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.7);
 }
 
 /* ==========================================================================
@@ -167,16 +171,16 @@ header {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(6, 182, 212, 0.1);
-  border: var(--border-glow-cyan);
-  color: var(--color-cyan-light);
+  background: rgba(250, 204, 21, 0.1);
+  border: var(--border-glow-gold);
+  color: var(--color-gold);
   padding: 0.38rem 0.85rem;
   border-radius: var(--radius-md);
   font-family: var(--font-mono);
   font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.6px;
-  box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
+  box-shadow: 0 0 15px rgba(250, 204, 21, 0.2);
 }
 
 .brand-badge::before {
@@ -184,8 +188,8 @@ header {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--color-cyan-light);
-  box-shadow: 0 0 8px var(--color-cyan-light);
+  background: var(--color-gold-amber);
+  box-shadow: 0 0 8px var(--color-gold-amber);
   animation: pulseDot 2s infinite;
 }
 
@@ -231,10 +235,10 @@ header {
 
 .nav-pill.active {
   background: rgba(15, 23, 42, 0.9);
-  border: var(--border-glow-cyan);
-  color: var(--color-cyan-light);
+  border: var(--border-glow-gold);
+  color: var(--color-gold);
   font-weight: 600;
-  box-shadow: 0 0 16px rgba(6, 182, 212, 0.2);
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.25);
 }
 
 .nav-pill-num {
@@ -243,7 +247,7 @@ header {
   color: var(--text-slate-500);
 }
 .nav-pill.active .nav-pill-num {
-  color: var(--color-cyan-light);
+  color: var(--color-gold-amber);
   font-weight: 700;
 }
 
@@ -269,9 +273,9 @@ header {
 }
 
 .menu-trigger-btn:hover {
-  border-color: var(--color-cyan);
+  border-color: var(--color-gold-amber);
   color: var(--text-white);
-  box-shadow: 0 0 12px rgba(6, 182, 212, 0.2);
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.25);
 }
 
 .dropdown-menu {
@@ -320,9 +324,9 @@ header {
 }
 
 .dropdown-item.active {
-  background: rgba(6, 182, 212, 0.12);
-  color: var(--color-cyan-light);
-  border: 1px solid rgba(6, 182, 212, 0.25);
+  background: rgba(250, 204, 21, 0.12);
+  color: var(--color-gold);
+  border: 1px solid rgba(250, 204, 21, 0.3);
 }
 
 .dropdown-badge {
@@ -341,10 +345,10 @@ header {
 }
 
 .dropdown-item.active .dropdown-badge {
-  background: var(--color-cyan);
+  background: var(--color-gold-amber);
   color: #030712;
   font-weight: 700;
-  box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.4);
 }
 
 .dropdown-info {
@@ -393,10 +397,10 @@ header {
 }
 
 .nav-btn:hover:not(:disabled) {
-  border-color: var(--color-cyan);
+  border-color: var(--color-gold-amber);
   background: rgba(15, 23, 42, 1);
   color: var(--text-white);
-  box-shadow: 0 0 12px rgba(6, 182, 212, 0.2);
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.25);
 }
 
 .nav-btn:disabled {
@@ -465,15 +469,15 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  background: rgba(16, 185, 129, 0.1);
-  border: var(--border-glow-emerald);
+  background: rgba(250, 204, 21, 0.1);
+  border: var(--border-glow-gold);
   border-radius: var(--radius-pill);
   padding: 0.4rem 1.15rem;
   font-family: var(--font-mono);
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--color-emerald-light);
-  box-shadow: 0 0 16px rgba(16, 185, 129, 0.15);
+  color: var(--color-gold);
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.18);
 }
 
 .speaker-pill::before {
@@ -481,8 +485,8 @@ main {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--color-emerald-light);
-  box-shadow: 0 0 10px var(--color-emerald-light);
+  background: var(--color-gold-amber);
+  box-shadow: 0 0 10px var(--color-gold-amber);
   animation: pulseDot 2s infinite;
 }
 
@@ -494,9 +498,9 @@ main {
 }
 
 .meta-card {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(15, 23, 42, 0.6) 60%, rgba(6, 182, 212, 0.08) 100%);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(15, 23, 42, 0.6) 60%, rgba(245, 158, 11, 0.08) 100%);
   border: var(--border-card);
-  border-left: 3px solid var(--color-cyan-light);
+  border-left: 3px solid var(--color-gold-amber);
   border-radius: var(--radius-lg);
   padding: 0.95rem 1.25rem;
   font-size: 1.02rem;
@@ -506,7 +510,7 @@ main {
 }
 
 .meta-card strong {
-  color: var(--color-cyan-light);
+  color: var(--color-gold);
   display: block;
   font-family: var(--font-mono);
   font-size: 0.82rem;
@@ -517,12 +521,12 @@ main {
 }
 
 .meta-card.theory {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(15, 23, 42, 0.6) 60%, rgba(99, 102, 241, 0.08) 100%);
-  border-left-color: var(--color-indigo-light);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(15, 23, 42, 0.6) 60%, rgba(6, 182, 212, 0.08) 100%);
+  border-left-color: var(--color-cyan-light);
 }
 
 .meta-card.theory strong {
-  color: var(--color-indigo-light);
+  color: var(--color-cyan-light);
 }
 
 /* ==========================================================================
@@ -593,14 +597,14 @@ main {
 
 /* MATLAB & Python distinct styled active tabs */
 .tab-btn.active {
-  background: rgba(245, 158, 11, 0.15);
-  color: var(--color-amber-light);
-  border-color: rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.18);
+  color: var(--color-gold);
+  border-color: rgba(250, 204, 21, 0.4);
   font-weight: 600;
 }
 
 .tab-btn:nth-child(2).active {
-  background: rgba(6, 182, 212, 0.15);
+  background: rgba(6, 182, 212, 0.18);
   color: var(--color-cyan-light);
   border-color: rgba(6, 182, 212, 0.35);
 }
@@ -621,9 +625,9 @@ main {
 }
 
 .copy-btn:hover {
-  color: var(--color-cyan-light);
-  border-color: rgba(6, 182, 212, 0.4);
-  box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+  color: var(--color-gold);
+  border-color: rgba(250, 204, 21, 0.4);
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.2);
 }
 
 .code-body {
@@ -697,7 +701,7 @@ main {
 }
 
 .terminal-body .cmd { color: var(--color-cyan-light); font-weight: 600; }
-.terminal-body .ans { color: var(--color-cyan-light); font-weight: 700; text-shadow: 0 0 8px rgba(6, 182, 212, 0.3); }
+.terminal-body .ans { color: var(--color-gold); font-weight: 700; text-shadow: 0 0 8px rgba(250, 204, 21, 0.35); }
 .terminal-body .info { color: var(--text-slate-400); }
 
 /* Right Column: Plotly & Interpretation */
@@ -736,7 +740,7 @@ main {
   font-size: 0.92rem;
   font-weight: 700;
   font-family: var(--font-mono);
-  color: var(--color-cyan-light);
+  color: var(--color-gold);
   text-transform: uppercase;
   letter-spacing: 0.6px;
 }
@@ -762,17 +766,17 @@ main {
 
 .control-btn:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: var(--color-cyan);
+  border-color: var(--color-gold-amber);
   color: var(--text-white);
-  box-shadow: 0 0 12px rgba(6, 182, 212, 0.2);
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.25);
 }
 
 .control-btn.active {
-  background: var(--color-cyan);
+  background: var(--color-gold-amber);
   color: #030712;
-  border-color: var(--color-cyan);
+  border-color: var(--color-gold-amber);
   font-weight: 700;
-  box-shadow: var(--glow-cyan);
+  box-shadow: var(--glow-gold);
 }
 
 .slider-control {
@@ -785,7 +789,7 @@ main {
 }
 
 .slider-control input[type=range] {
-  accent-color: var(--color-cyan);
+  accent-color: var(--color-gold-amber);
   cursor: pointer;
 }
 
@@ -822,8 +826,8 @@ main {
 
 /* Full Width Telecom Banner */
 .telecom-banner {
-  background: linear-gradient(90deg, rgba(8, 47, 73, 0.45) 0%, rgba(15, 23, 42, 0.92) 50%, rgba(30, 58, 138, 0.45) 100%);
-  border: var(--border-glow-cyan);
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.16) 0%, rgba(15, 23, 42, 0.92) 50%, rgba(6, 182, 212, 0.16) 100%);
+  border: var(--border-glow-gold);
   border-radius: var(--radius-lg);
   padding: 0.95rem 1.35rem;
   display: flex;
@@ -831,18 +835,18 @@ main {
   gap: 1.15rem;
   font-size: 1.02rem;
   line-height: 1.65;
-  box-shadow: 0 10px 30px -10px rgba(6, 182, 212, 0.2);
+  box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.25);
 }
 
 .telecom-icon {
   font-size: 1.75rem;
-  color: var(--color-cyan-light);
+  color: var(--color-gold);
   flex-shrink: 0;
-  filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.5));
+  filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.5));
 }
 
 .telecom-content strong {
-  color: var(--color-cyan-light);
+  color: var(--color-gold);
   font-family: var(--font-mono);
   display: inline-block;
   margin-right: 0.45rem;
@@ -859,7 +863,7 @@ main {
 
 .custom-table th {
   background: rgba(15, 23, 42, 0.9);
-  color: var(--color-cyan-light);
+  color: var(--color-gold);
   font-family: var(--font-mono);
   font-weight: 600;
   text-align: left;
@@ -879,7 +883,7 @@ main {
 }
 
 .custom-table .hl {
-  color: var(--color-cyan-light);
+  color: var(--color-gold);
   font-weight: 700;
 }
 
@@ -921,7 +925,7 @@ main {
 
 .uni-logo:hover {
   transform: scale(1.06);
-  filter: drop-shadow(0 8px 24px rgba(6, 182, 212, 0.35));
+  filter: drop-shadow(0 8px 24px rgba(250, 204, 21, 0.35));
 }
 
 .institution-text {
@@ -941,7 +945,7 @@ main {
 
 .institution-sub {
   font-size: 1.02rem;
-  color: var(--color-cyan-light);
+  color: var(--color-gold);
   font-weight: 600;
   letter-spacing: 0.6px;
 }
@@ -958,15 +962,15 @@ main {
   gap: 0.55rem;
   padding: 0.45rem 1.35rem;
   border-radius: var(--radius-pill);
-  background: rgba(11, 15, 25, 0.9);
-  border: var(--border-glow-cyan);
-  color: var(--color-cyan-light);
+  background: rgba(11, 15, 25, 0.92);
+  border: var(--border-glow-gold);
+  color: var(--color-gold);
   font-family: var(--font-mono);
   font-size: 0.88rem;
   font-weight: 600;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+  box-shadow: var(--glow-gold);
 }
 
 .portada-title {
@@ -979,7 +983,7 @@ main {
   line-height: 1.16;
   max-width: 1020px;
   margin: 0 auto;
-  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 6px 24px rgba(245, 158, 11, 0.3));
 }
 
 .portada-subtitle {
@@ -1017,19 +1021,19 @@ main {
 }
 
 .member-card:hover {
-  border-color: rgba(6, 182, 212, 0.6);
+  border-color: rgba(250, 204, 21, 0.6);
   background: rgba(15, 23, 42, 0.95);
   transform: translateY(-3px);
-  box-shadow: 0 14px 34px -8px rgba(6, 182, 212, 0.3);
+  box-shadow: 0 14px 34px -8px rgba(245, 158, 11, 0.35);
 }
 
 .member-num {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: rgba(6, 182, 212, 0.12);
-  border: 1px solid rgba(6, 182, 212, 0.35);
-  color: var(--color-cyan-light);
+  background: rgba(250, 204, 21, 0.12);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  color: var(--color-gold-amber);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1041,9 +1045,9 @@ main {
 }
 
 .member-card:hover .member-num {
-  background: var(--color-cyan);
+  background: var(--color-gold-amber);
   color: #030712;
-  box-shadow: 0 0 15px rgba(6, 182, 212, 0.6);
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.65);
 }
 
 .member-info h4 {
@@ -1054,7 +1058,7 @@ main {
 }
 
 .member-card:hover .member-info h4 {
-  color: var(--color-cyan-light);
+  color: var(--color-gold);
 }
 
 .member-info p {
@@ -1067,7 +1071,7 @@ main {
 
 /* Start Button (CTA): Multi-Gradient Glow */
 .start-btn {
-  background: linear-gradient(135deg, #22d3ee 0%, #38bdf8 50%, #6366f1 100%);
+  background: var(--btn-gold-gradient);
   color: #030712;
   border: none;
   padding: 1rem 2.8rem;
@@ -1080,14 +1084,14 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  box-shadow: 0 0 25px rgba(6, 182, 212, 0.45);
+  box-shadow: 0 0 25px rgba(250, 204, 21, 0.45);
   transition: var(--transition-fast);
   margin-top: 0.85rem;
 }
 
 .start-btn:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 0 35px rgba(6, 182, 212, 0.7);
+  box-shadow: 0 0 35px rgba(250, 204, 21, 0.7);
 }
 
 /* Toast */
@@ -1095,7 +1099,7 @@ main {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  background: var(--color-cyan);
+  background: var(--color-gold-amber);
   color: #030712;
   padding: 0.85rem 1.6rem;
   border-radius: var(--radius-md);
@@ -1106,7 +1110,7 @@ main {
   transform: translateY(12px);
   transition: var(--transition-fast);
   z-index: 1000;
-  box-shadow: 0 8px 30px rgba(6, 182, 212, 0.5);
+  box-shadow: 0 8px 30px rgba(250, 204, 21, 0.5);
 }
 .toast-copied.show {
   opacity: 1;
@@ -1117,7 +1121,7 @@ main {
 .kwd { color: #f43f5e; font-weight: 600; }
 .fun { color: var(--color-blue-light); font-weight: 600; }
 .str { color: var(--color-emerald-light); }
-.num { color: var(--color-amber-light); }
+.num { color: var(--color-gold); font-weight: 600; }
 .com { color: var(--text-slate-400); font-style: italic; }
 
 /* KaTeX custom sizing in presentation */

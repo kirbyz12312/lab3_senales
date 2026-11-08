@@ -474,7 +474,7 @@ function renderPlotSlide1() {
 
   const traceStemMarkers = {
     x: fData.freqs, y: fData.coeffs, mode: 'markers', type: 'scatter',
-    marker: { size: 7, color: '#22d3ee', line: { color: '#030712', width: 1 } },
+    marker: { size: 7, color: '#facc15', line: { color: '#030712', width: 1 } },
     name: 'c_n', xaxis: 'x2', yaxis: 'y2'
   };
 
@@ -513,7 +513,7 @@ function renderPlotSlide2(M) {
 
   const traceRecon = {
     x: timeVec, y: vf, mode: 'lines',
-    line: { color: '#38bdf8', width: 2.8 },
+    line: { color: '#facc15', width: 2.8 },
     name: 'vf(t) (M=' + p4CurrentM + ')'
   };
 
@@ -588,7 +588,7 @@ function renderPlotSlide3() {
 
     const traceStem = {
       x: fData.freqs, y: fData.coeffs, mode: 'markers', type: 'scatter',
-      marker: { size: 6, color: '#22d3ee', line: { color: '#030712', width: 1 } },
+      marker: { size: 6, color: '#facc15', line: { color: '#030712', width: 1 } },
       xaxis: 'x2', yaxis: 'y2'
     };
 
@@ -613,7 +613,7 @@ function renderPlotSlide3() {
     };
     const traceRecon = {
       x: timeVec, y: vf, mode: 'lines',
-      line: { color: '#38bdf8', width: 2.8 },
+      line: { color: '#facc15', width: 2.8 },
       name: 'vf(t) (M = 20)'
     };
     const layout = {
@@ -648,7 +648,7 @@ function renderPlotSlide4() {
     };
     const traceRecon = {
       x: timeVec, y: vf, mode: 'lines',
-      line: { color: '#38bdf8', width: 2.2 },
+      line: { color: '#facc15', width: 2.2 },
       name: 'vf(t) (M = 50)'
     };
 
@@ -663,8 +663,8 @@ function renderPlotSlide4() {
           x: 0.0003, y: 185.2, xref: 'x', yref: 'y',
           text: 'Sobrepico de Gibbs: 185.21 V (+8.95%)',
           showarrow: true, arrowhead: 2, ax: 45, ay: -35,
-          font: { color: '#38bdf8', size: 12, weight: 700 },
-          arrowcolor: '#38bdf8'
+          font: { color: '#fde047', size: 12, weight: 700 },
+          arrowcolor: '#facc15'
         }
       ],
       margin: { l: 60, r: 25, t: 40, b: 45 }
@@ -681,7 +681,7 @@ function renderPlotSlide4() {
     }
     const traceStem = {
       x: fData.freqs, y: fData.coeffs, mode: 'markers', type: 'scatter',
-      marker: { size: 4.5, color: '#22d3ee' }
+      marker: { size: 4.5, color: '#facc15' }
     };
     const layout = {
       ...plotlyLayoutBase,
@@ -718,7 +718,7 @@ function renderPlotSlide5() {
 
   const traceMag = {
     x: f5, y: mag5, mode: 'markers', type: 'scatter',
-    marker: { size: 8, color: '#22d3ee', line: { color: '#030712', width: 1.5 } },
+    marker: { size: 8, color: '#facc15', line: { color: '#030712', width: 1.5 } },
     xaxis: 'x', yaxis: 'y'
   };
 
@@ -795,14 +795,14 @@ function renderPlotSlide6() {
   }
 
   const traceMag = {
-    x: f5, y: mag5, mode: 'markers', type: 'scatter',
-    marker: { size: 8, color: '#22d3ee', line: { color: '#030712', width: 1.5 } },
+    x: f, y: cmag, mode: 'markers', type: 'scatter',
+    marker: { size: p7CurrentNum === 40 ? 5 : 4, color: '#facc15' },
     xaxis: 'x', yaxis: 'y', name: 'Amplitud'
   };
 
   const tracePhase = {
-    x: f5, y: phase5, mode: 'markers', type: 'scatter',
-    marker: { size: 8, color: '#c084fc', line: { color: '#030712', width: 1.5 } },
+    x: f, y: cphase, mode: 'markers', type: 'scatter',
+    marker: { size: p7CurrentNum === 40 ? 5 : 4, color: '#c084fc' },
     xaxis: 'x2', yaxis: 'y2', name: 'Fase'
   };
 
@@ -818,7 +818,7 @@ function renderPlotSlide6() {
       {
         xref: 'paper', yref: 'paper', x: 0.22, y: 1.08,
         text: '<b>Espectro de Amplitud (' + (p7Mode === 'all' ? '20/40/60' : p7Mode) + ')</b>',
-        showarrow: false, font: { color: '#06b6d4', size: 13, family: 'Inter, sans-serif' }
+        showarrow: false, font: { color: '#facc15', size: 13, family: 'Inter, sans-serif' }
       },
       {
         xref: 'paper', yref: 'paper', x: 0.78, y: 1.08,
@@ -846,13 +846,13 @@ function renderPlotSlide7() {
   const traceSq = {
     x: harmOrders, y: sqDecay,
     mode: 'lines+markers', name: 'Onda Cuadrada (~1/n)',
-    line: { color: '#06b6d4', width: 2.5 }, marker: { size: 7, color: '#22d3ee' }
+    line: { color: '#38bdf8', width: 2.5 }, marker: { size: 7, color: '#38bdf8' }
   };
 
   const traceRect = {
     x: harmOrders, y: rectDecay,
     mode: 'lines+markers', name: 'Rectificador (~1/n²)',
-    line: { color: '#10b981', width: 2.5 }, marker: { size: 7, color: '#34d399' }
+    line: { color: '#facc15', width: 2.5 }, marker: { size: 7, color: '#fde047' }
   };
 
   const layout = {
@@ -1023,8 +1023,8 @@ if (canvas) {
       const by = h - barHeight - 15;
 
       const gradient = ctx.createLinearGradient(0, by, 0, h);
-      gradient.addColorStop(0, 'rgba(6, 182, 212, 0.25)');
-      gradient.addColorStop(0.5, 'rgba(59, 130, 246, 0.12)');
+      gradient.addColorStop(0, 'rgba(250, 204, 21, 0.28)');
+      gradient.addColorStop(0.5, 'rgba(245, 158, 11, 0.12)');
       gradient.addColorStop(1, 'rgba(3, 7, 18, 0)');
 
       ctx.fillStyle = gradient;
@@ -1039,9 +1039,9 @@ if (canvas) {
 
     // 2. Ondas armónicas sinusoidales superpuestas (Fasores en tiempo)
     const waves = [
-      { freq: 0.007, amp: 65, speed: 0.02, color: 'rgba(6, 182, 212, 0.4)', width: 3 },
-      { freq: 0.013, amp: 44, speed: -0.016, color: 'rgba(59, 130, 246, 0.35)', width: 2.5 },
-      { freq: 0.021, amp: 28, speed: 0.025, color: 'rgba(16, 185, 129, 0.28)', width: 2 },
+      { freq: 0.007, amp: 65, speed: 0.02, color: 'rgba(250, 204, 21, 0.42)', width: 3 },
+      { freq: 0.013, amp: 44, speed: -0.016, color: 'rgba(249, 115, 22, 0.35)', width: 2.5 },
+      { freq: 0.021, amp: 28, speed: 0.025, color: 'rgba(6, 182, 212, 0.32)', width: 2 },
       { freq: 0.032, amp: 18, speed: -0.02, color: 'rgba(168, 85, 247, 0.25)', width: 1.8 }
     ];
 
