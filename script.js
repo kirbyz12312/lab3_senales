@@ -759,77 +759,160 @@ let p7Mode = 40;
 
 function setViewP7(mode) {
   p7Mode = mode;
-  document.getElementById('btn-p7-40').classList.toggle('active', mode === 40);
-  document.getElementById('btn-p7-60').classList.toggle('active', mode === 60);
-  document.getElementById('btn-p7-comp').classList.toggle('active', mode === 'all');
+  const btn40 = document.getElementById('btn-p7-40');
+  const btn60 = document.getElementById('btn-p7-60');
+  const btnComp = document.getElementById('btn-p7-comp');
+  if (btn40) btn40.classList.toggle('active', mode === 40);
+  if (btn60) btn60.classList.toggle('active', mode === 60);
+  if (btnComp) btnComp.classList.toggle('active', mode === 'all');
   renderPlotSlide6();
 }
 
 function renderPlotSlide6() {
-  const dataToUse = p7Mode === 60 ? rectData60 : rectData40;
-  const f5 = dataToUse.f.slice(0, 5);
-  const mag5 = dataToUse.cmag.slice(0, 5);
-  const phase5 = dataToUse.cphase.slice(0, 5);
-
   const titleEl = document.getElementById('plot-title-p7');
-  if (titleEl) {
-    titleEl.innerText = p7Mode === 'all' 
-      ? 'Superposición de Espectros (num = 20, 40, 60)' 
-      : 'Rectificador: Espectros con num = ' + p7Mode + ' armónicos';
+
+  if (p7Mode === 'all') {
+    if (titleEl) titleEl.innerText = 'Superposición de Espectros e Invarianza DC (num = 20, 40, 60)';
+
+    // Subplot 1: Superposición de los primeros 5 armónicos
+    const f5 = rectData20.f.slice(0, 5);
+    const stemLinesComp = [];
+    for (let k = 0; k < 5; k++) {
+      stemLinesComp.push({
+        type: 'line', xref: 'x', yref: 'y',
+        x0: f5[k], y0: 0, x1: f5[k], y1: rectData20.cmag[k],
+        line: { color: 'rgba(51, 65, 85, 0.7)', width: 2 }
+      });
+    }
+
+    const trace20 = {
+      x: f5, y: rectData20.cmag.slice(0, 5), mode: 'markers', type: 'scatter',
+      marker: { size: 10, color: '#06b6d4', symbol: 'circle' },
+      xaxis: 'x', yaxis: 'y', name: 'num = 20 (DC = 107.53 V)'
+    };
+    const trace40 = {
+      x: f5, y: rectData40.cmag.slice(0, 5), mode: 'markers', type: 'scatter',
+      marker: { size: 7, color: '#facc15', symbol: 'diamond' },
+      xaxis: 'x', yaxis: 'y', name: 'num = 40 (DC = 107.53 V)'
+    };
+    const trace60 = {
+      x: f5, y: rectData60.cmag.slice(0, 5), mode: 'markers', type: 'scatter',
+      marker: { size: 4, color: '#c084fc', symbol: 'square' },
+      xaxis: 'x', yaxis: 'y', name: 'num = 60 (DC = 107.53 V)'
+    };
+
+    // Subplot 2: Espectro Completo de 60 armónicos (0 a 3540 Hz)
+    const stemLinesExt = [];
+    for (let k = 0; k < rectData60.f.length; k++) {
+      stemLinesExt.push({
+        type: 'line', xref: 'x2', yref: 'y2',
+        x0: rectData60.f[k], y0: 0, x1: rectData60.f[k], y1: rectData60.cmag[k],
+        line: { color: '#06b6d4', width: 1.5 }
+      });
+    }
+    const traceExt = {
+      x: rectData60.f, y: rectData60.cmag, mode: 'markers', type: 'scatter',
+      marker: { size: 4.5, color: '#facc15' },
+      xaxis: 'x2', yaxis: 'y2', name: 'Espectro 60 armónicos'
+    };
+
+    const layout = {
+      ...plotlyLayoutBase,
+      showlegend: true,
+      legend: { orientation: 'h', y: 1.16, x: 0.02, font: { color: '#cbd5e1', size: 10 } },
+      grid: { rows: 1, columns: 2, pattern: 'independent' },
+      shapes: [...stemLinesComp, ...stemLinesExt],
+      xaxis: { ...axisConfig, title: 'Frecuencia (Hz)', range: [-20, 280] },
+      yaxis: { ...axisConfig, title: 'Amplitud (V)', range: [0, 130] },
+      xaxis2: { ...axisConfig, title: 'Frecuencia (Hz)', range: [-50, 3650] },
+      yaxis2: { ...axisConfig, title: 'Amplitud (V)', range: [0, 130] },
+      annotations: [
+        {
+          xref: 'paper', yref: 'paper', x: 0.22, y: 1.08,
+          text: '<b>Invarianza de los Primeros 5 Armónicos</b>', showarrow: false,
+          font: { color: '#facc15', size: 12, family: 'Inter, sans-serif' }
+        },
+        {
+          xref: 'paper', yref: 'paper', x: 0.82, y: 1.08,
+          text: '<b>Espectro Completo Extendido (0 - 3.54 kHz)</b>', showarrow: false,
+          font: { color: '#06b6d4', size: 12, family: 'Inter, sans-serif' }
+        }
+      ],
+      margin: { l: 55, r: 25, t: 45, b: 45 }
+    };
+
+    Plotly.react('plot-slide-6', [trace20, trace40, trace60, traceExt], layout, { responsive: true, displayModeBar: false });
+  } else {
+    const dataToUse = (p7Mode === 60) ? rectData60 : rectData40;
+    if (titleEl) {
+      titleEl.innerText = 'Rectificador: Espectros con num = ' + p7Mode + ' armónicos';
+    }
+
+    const f5 = dataToUse.f.slice(0, 5);
+    const mag5 = dataToUse.cmag.slice(0, 5);
+    const phase5 = dataToUse.cphase.slice(0, 5);
+
+    const stemLinesMag = [];
+    const stemLinesPhase = [];
+
+    for (let k = 0; k < 5; k++) {
+      stemLinesMag.push({
+        type: 'line', xref: 'x', yref: 'y',
+        x0: f5[k], y0: 0, x1: f5[k], y1: mag5[k],
+        line: { color: '#06b6d4', width: 3.5 }
+      });
+      stemLinesPhase.push({
+        type: 'line', xref: 'x2', yref: 'y2',
+        x0: f5[k], y0: 0, x1: f5[k], y1: phase5[k],
+        line: { color: '#a855f7', width: 3.5 }
+      });
+    }
+
+    const traceMag = {
+      x: f5, y: mag5, mode: 'markers', type: 'scatter',
+      marker: { size: 8, color: '#facc15', line: { color: '#030712', width: 1.5 } },
+      xaxis: 'x', yaxis: 'y', name: 'Amplitud'
+    };
+
+    const tracePhase = {
+      x: f5, y: phase5, mode: 'markers', type: 'scatter',
+      marker: { size: 8, color: '#c084fc', line: { color: '#030712', width: 1.5 } },
+      xaxis: 'x2', yaxis: 'y2', name: 'Fase'
+    };
+
+    const layout = {
+      ...plotlyLayoutBase,
+      showlegend: false,
+      grid: { rows: 1, columns: 2, pattern: 'independent' },
+      shapes: [...stemLinesMag, ...stemLinesPhase],
+      xaxis: { ...axisConfig, title: 'Frecuencia, Hz', range: [-20, 300] },
+      yaxis: { ...axisConfig, title: 'Amplitud (V)', range: [0, 130] },
+      xaxis2: { ...axisConfig, title: 'Frecuencia, Hz', range: [-20, 300] },
+      yaxis2: { ...axisConfig, title: 'Fase (rad)', range: [0, 3.5] },
+      annotations: [
+        {
+          xref: 'paper', yref: 'paper', x: 0.22, y: 1.08,
+          text: `<b>Espectro de Amplitud (num = ${p7Mode})</b>`, showarrow: false,
+          font: { color: '#facc15', size: 13, family: 'Inter, sans-serif' }
+        },
+        {
+          xref: 'paper', yref: 'paper', x: 0.78, y: 1.08,
+          text: `<b>Espectro de Fase (num = ${p7Mode})</b>`, showarrow: false,
+          font: { color: '#c084fc', size: 13, family: 'Inter, sans-serif' }
+        },
+        {
+          x: 0, y: 107.53, xref: 'x', yref: 'y',
+          text: `V_dc = 107.5344 V`, showarrow: true, arrowhead: 2,
+          ax: 40, ay: -30,
+          font: { color: '#fde047', size: 11, weight: 700 },
+          arrowcolor: '#facc15'
+        }
+      ],
+      margin: { l: 55, r: 25, t: 45, b: 45 }
+    };
+
+    Plotly.react('plot-slide-6', [traceMag, tracePhase], layout, { responsive: true, displayModeBar: false });
   }
-
-  const stemLinesMag = [];
-  const stemLinesPhase = [];
-
-  for (let k = 0; k < 5; k++) {
-    stemLinesMag.push({
-      type: 'line', xref: 'x', yref: 'y',
-      x0: f5[k], y0: 0, x1: f5[k], y1: mag5[k],
-      line: { color: '#06b6d4', width: 3.5 }
-    });
-    stemLinesPhase.push({
-      type: 'line', xref: 'x2', yref: 'y2',
-      x0: f5[k], y0: 0, x1: f5[k], y1: phase5[k],
-      line: { color: '#a855f7', width: 3.5 }
-    });
-  }
-
-  const traceMag = {
-    x: f, y: cmag, mode: 'markers', type: 'scatter',
-    marker: { size: p7CurrentNum === 40 ? 5 : 4, color: '#facc15' },
-    xaxis: 'x', yaxis: 'y', name: 'Amplitud'
-  };
-
-  const tracePhase = {
-    x: f, y: cphase, mode: 'markers', type: 'scatter',
-    marker: { size: p7CurrentNum === 40 ? 5 : 4, color: '#c084fc' },
-    xaxis: 'x2', yaxis: 'y2', name: 'Fase'
-  };
-
-  const layout = {
-    ...plotlyLayoutBase,
-    grid: { rows: 1, columns: 2, pattern: 'independent' },
-    shapes: [...stemLinesMag, ...stemLinesPhase],
-    xaxis: { ...axisConfig, title: 'Frecuencia, Hz', range: [-20, 300] },
-    yaxis: { ...axisConfig, title: 'Amplitud (V)', range: [0, 130] },
-    xaxis2: { ...axisConfig, title: 'Frecuencia, Hz', range: [-20, 300] },
-    yaxis2: { ...axisConfig, title: 'Fase (rad)', range: [0, 3.5] },
-    annotations: [
-      {
-        xref: 'paper', yref: 'paper', x: 0.22, y: 1.08,
-        text: '<b>Espectro de Amplitud (' + (p7Mode === 'all' ? '20/40/60' : p7Mode) + ')</b>',
-        showarrow: false, font: { color: '#facc15', size: 13, family: 'Inter, sans-serif' }
-      },
-      {
-        xref: 'paper', yref: 'paper', x: 0.78, y: 1.08,
-        text: '<b>Espectro de Fase (' + (p7Mode === 'all' ? '20/40/60' : p7Mode) + ')</b>',
-        showarrow: false, font: { color: '#c084fc', size: 13, family: 'Inter, sans-serif' }
-      }
-    ],
-    margin: { l: 60, r: 25, t: 45, b: 45 }
-  };
-
-  Plotly.react('plot-slide-6', [traceMag, tracePhase], layout, { responsive: true, displayModeBar: false });
 }
 
 // Slide 7 (Conclusiones)
