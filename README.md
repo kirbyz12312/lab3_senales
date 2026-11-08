@@ -91,3 +91,4 @@ Para visualizar la presentación localmente sin necesidad de servidor:
 ## 📄 Licencia
 
 Este proyecto fue desarrollado con fines académicos en la **Universidad Nacional de San Agustín de Arequipa (UNSA)** — Escuela Profesional de Ingeniería de Telecomunicaciones.
+
