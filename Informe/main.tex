@@ -134,21 +134,33 @@
     
     \begin{figure}[H]
         \centering
-        \IfFileExists{logo_unsa.png}{
-            \includegraphics[width=4.8cm]{logo_unsa.png}
+        \IfFileExists{Escudo_UNSA.png}{
+            \includegraphics[height=3.0cm]{Escudo_UNSA.png}
         }{
-            \IfFileExists{imagenes/logo_unsa.png}{
-                \includegraphics[width=4.8cm]{imagenes/logo_unsa.png}
+            \IfFileExists{logo_unsa.png}{
+                \includegraphics[height=3.0cm]{logo_unsa.png}
             }{
-                \IfFileExists{img/Escudo_UNSA.png}{
-                    \includegraphics[width=4.8cm]{img/Escudo_UNSA.png}
+                \IfFileExists{imagenes/logo_unsa.png}{
+                    \includegraphics[height=3.0cm]{imagenes/logo_unsa.png}
                 }{
-                    \IfFileExists{Escudo_UNSA.png}{
-                        \includegraphics[width=4.8cm]{Escudo_UNSA.png}
+                    \IfFileExists{img/Escudo_UNSA.png}{
+                        \includegraphics[height=3.0cm]{img/Escudo_UNSA.png}
                     }{
-                        \textbf{\Large [ESCUDO INSTITUCIONAL UNSA]}
+                        \textbf{\Large [ESCUDO UNSA]}
                     }
                 }
+            }
+        }
+        \hspace{1.5cm}
+        \IfFileExists{LOGO_EPIT.png}{
+            \includegraphics[height=3.0cm]{LOGO_EPIT.png}
+        }{
+            \IfFileExists{imagenes/LOGO_EPIT.png}{
+                \includegraphics[height=3.0cm]{imagenes/LOGO_EPIT.png}
+            }{
+                \IfFileExists{img/LOGO_EPIT.png}{
+                    \includegraphics[height=3.0cm]{img/LOGO_EPIT.png}
+                }{}
             }
         }
     \end{figure}
