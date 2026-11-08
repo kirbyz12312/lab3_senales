@@ -23,6 +23,11 @@
 \usepackage{enumitem}
 
 % =========================================================================
+% DIRECTORIOS DE BÚSQUEDA DE IMÁGENES (COMPATIBLE CON OVERLEAF Y LOCAL)
+% =========================================================================
+\graphicspath{{./}{imagenes/}{img/}{Informe/imagenes/}}
+
+% =========================================================================
 % COLORES INSTITUCIONALES Y DE CÓDIGO (PALETA LINEAR / PRECISION)
 % =========================================================================
 \definecolor{unsaBlue}{RGB}{14, 43, 92}
@@ -122,74 +127,53 @@
 % -------------------------------------------------------------------------
 \begin{titlepage}
     \centering
-    \vspace*{-1.5cm}
+    \vspace*{0.3cm}
     
-    % Logos Institucionales
-    \begin{minipage}{0.2\textwidth}
+    {\large \textbf{UNIVERSIDAD NACIONAL DE SAN AGUSTÍN DE AREQUIPA}}\\[0.25cm]
+    {\normalsize \textbf{ESCUELA PROFESIONAL DE INGENIERÍA DE TELECOMUNICACIONES}}\\[1.0cm]
+    
+    \begin{figure}[H]
         \centering
-        \IfFileExists{img/Escudo_UNSA.png}{
-            \includegraphics[height=2.8cm]{img/Escudo_UNSA.png}
+        \IfFileExists{logo_unsa.png}{
+            \includegraphics[width=4.8cm]{logo_unsa.png}
         }{
-            \IfFileExists{Escudo_UNSA.png}{
-                \includegraphics[height=2.8cm]{Escudo_UNSA.png}
+            \IfFileExists{imagenes/logo_unsa.png}{
+                \includegraphics[width=4.8cm]{imagenes/logo_unsa.png}
             }{
-                \textbf{\large UNSA}
+                \IfFileExists{img/Escudo_UNSA.png}{
+                    \includegraphics[width=4.8cm]{img/Escudo_UNSA.png}
+                }{
+                    \IfFileExists{Escudo_UNSA.png}{
+                        \includegraphics[width=4.8cm]{Escudo_UNSA.png}
+                    }{
+                        \textbf{\Large [ESCUDO INSTITUCIONAL UNSA]}
+                    }
+                }
             }
         }
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.55\textwidth}
-        \centering
-        {\scshape\large Universidad Nacional de San Agustín de Arequipa}\\[0.2cm]
-        {\scshape\footnotesize Facultad de Ingeniería de Producción y Servicios}\\[0.15cm]
-        {\scshape\bfseries\small Escuela Profesional de Ingeniería de Telecomunicaciones}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.2\textwidth}
-        \centering
-        \IfFileExists{img/LOGO_EPIT.png}{
-            \includegraphics[height=2.5cm]{img/LOGO_EPIT.png}
-        }{
-            \IfFileExists{LOGO_EPIT.png}{
-                \includegraphics[height=2.5cm]{LOGO_EPIT.png}
-            }{
-                \textbf{\large EPIT}
-            }
-        }
-    \end{minipage}
-
-    \vspace{1.5cm}
-    \rule{\linewidth}{1.2pt}\\[0.4cm]
-    {\huge\bfseries INFORME DE LABORATORIO N$^\circ$ 3}\\[0.3cm]
-    {\LARGE\color{unsaBlue}\bfseries Serie de Fourier en MATLAB y Python}\\[0.2cm]
-    {\large\itshape Análisis Numérico de Onda Cuadrada de $170\text{ V} \text{ @ } 60\text{ Hz}$, Reconstrucción Armónica, Fenómeno de Gibbs y Rectificador de Onda Completa}
-    \rule{\linewidth}{1.2pt}
-
-    \vspace{1.2cm}
-    \begin{minipage}[t]{0.45\textwidth}
-        \textbf{\large Asignatura:}\\
-        Señales y Sistemas\\[0.3cm]
-        \textbf{\large Grupo de Laboratorio:}\\
-        Grupo 3\\[0.3cm]
-        \textbf{\large Semestre Académico:}\\
-        2026-A
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.5\textwidth}
-        \textbf{\large Integrantes del Grupo:}\\[0.15cm]
-        \begin{enumerate}[leftmargin=*,itemsep=1pt]
-            \item Gutierrez Barrionuevo, Henry Andre
-            \item Gutierrez Ccolqque, Franco Arturo
-            \item Quispe Flores, Benjamín Eduardo
-            \item Quispe Yncarroque, Alex Cesar
-            \item Uturunco Cuela, Zaul Francisco
-            \item Villalta Checalla, Gianluigi Jeremy
-        \end{enumerate}
-    \end{minipage}
-
+    \end{figure}
+    \vspace{0.6cm}
+    
+    {\large \textbf{LABORATORIO 03}}\\[0.35cm]
+    {\normalsize \textbf{CURSO:} SEÑALES Y SISTEMAS}\\[0.35cm]
+    {\Large\color{unsaBlue} \textbf{OBTENCIÓN DE LA SERIE DE FOURIER A TRAVÉS DE MATLAB Y PYTHON}}\\[0.25cm]
+    {\small\itshape Análisis Numérico de Onda Cuadrada ($170\text{ V} \text{ @ } 60\text{ Hz}$), Reconstrucción Armónica, Fenómeno de Gibbs y Rectificador de Onda Completa}\\[1.4cm]
+    
+    \begin{flushleft}
+        \textbf{EQUIPO DE TRABAJO:}\\[0.15cm]
+        Gutierrez Barrionuevo, Henry Andre\\
+        Gutierrez Ccolqque, Franco Arturo\\
+        Quispe Flores, Benjamín Eduardo\\
+        Quispe Yncarroque, Alex Cesar\\
+        Uturunco Cuela, Zaul Francisco\\
+        Villalta Checalla, Gianluigi Jeremy\\[0.5cm]
+        
+        \textbf{DOCENTE:}\\[0.15cm]
+        Huaita Bedregal, Asencio Alejandro
+    \end{flushleft}
+    
     \vfill
-    {\large\bfseries Arequipa -- Perú}\\
-    {\small 2026}
+    {\normalsize Arequipa, Perú\\[0.1cm] 2026}
 \end{titlepage}
 
 % -------------------------------------------------------------------------
@@ -232,7 +216,7 @@ Realizar el cálculo numérico, síntesis armónica y análisis espectral de la 
     \item Modelar el rectificador de onda completa monofásico ($120\text{ V}_{\text{rms}} @ 60\text{ Hz}$) y calcular los coeficientes de la Serie Exponencial de Fourier $C_n$ para $\text{num} = 20, 40 \text{ y } 60$ armónicos.
     \item Comparar el valor de tensión continua $V_{dc}$ numérico ($107.5344\text{ V}$) frente al valor medio teórico ($2V_m/\pi \approx 108.0379\text{ V}$) y justificar formalmente la causa de su discrepancia porcentual.
     \item Comprobar experimentalmente la invarianza de la componente DC ante el incremento del orden armónico y el aumento de resolución en componentes de alta frecuencia.
-    \item Desarrollar una aplicación web interactiva que exponga los resultados en tiempo real con gráficas de alta definición usando Plotly.js y fórmulas en KaTeX.
+    \item Integrar las simulaciones gráficas generadas en Python en el cuerpo del informe para su contraste visual riguroso.
 \end{enumerate}
 
 % =========================================================================
@@ -241,126 +225,98 @@ Realizar el cálculo numérico, síntesis armónica y análisis espectral de la 
 \section{Marco Teórico}
 
 \subsection{Serie Trigonométrica de Fourier}
-Sea $v(t)$ una señal periódica con periodo fundamental $T$ y frecuencia angular fundamental $\omega_0 = \frac{2\pi}{T} = 2\pi f_0$. Si $v(t)$ satisface las condiciones de Dirichlet (es integrable absolutamente en un periodo, posee un número finito de máximos y mínimos, y un número finito de discontinuidades de salto), puede expresarse como:
+Sea $v(t)$ una señal periódica con periodo fundamental $T$ y frecuencia angular fundamental $\omega_0 = \frac{2\pi}{T} = 2\pi f_0$. Si $v(t)$ satisface las condiciones de Dirichlet, puede expresarse como:
 \begin{equation}
     v(t) = a_0 + \sum_{n=1}^\infty \left[ a_n \cos(n\omega_0 t) + b_n \sin(n\omega_0 t) \right]
     \label{eq:fourier_trig}
 \end{equation}
 donde los coeficientes de Euler-Fourier se determinan por ortogonalidad de las funciones sinusoidales:
 \begin{align}
-    a_0 &= \frac{1}{T} \int_0^T v(t)\, dt \quad \text{(Componente continua o valor medio)} \label{eq:a0}\\
-    a_n &= \frac{2}{T} \int_0^T v(t) \cos(n\omega_0 t)\, dt, \quad n = 1, 2, 3, \dots \label{eq:an}\\
-    b_n &= \frac{2}{T} \int_0^T v(t) \sin(n\omega_0 t)\, dt, \quad n = 1, 2, 3, \dots \label{eq:bn}
+    a_0 &= \frac{1}{T} \int_0^T v(t)\, dt \label{eq:a0_def}\\
+    a_n &= \frac{2}{T} \int_0^T v(t) \cos(n\omega_0 t)\, dt \label{eq:an_def}\\
+    b_n &= \frac{2}{T} \int_0^T v(t) \sin(n\omega_0 t)\, dt \label{eq:bn_def}
 \end{align}
-La amplitud armónica compuesta $c_n$ asociada a la frecuencia $f_n = n f_0$ está dada por:
+La amplitud espectral de cada línea armónica $c_n$ y su fase $\theta_n$ vienen dadas por:
 \begin{equation}
-    c_n = \sqrt{a_n^2 + b_n^2}, \quad c_0 = a_0
+    c_n = \sqrt{a_n^2 + b_n^2}, \qquad \theta_n = -\arctan\left(\frac{b_n}{a_n}\right)
 \end{equation}
 
-\subsection{Simetrías y Simplificaciones de la Onda Cuadrada}
-Para una onda cuadrada simétrica bipolar de amplitud $\pm A$ definida en el intervalo $[0, T]$ como:
+\subsection{Análisis Teórico de la Onda Cuadrada Bipolar}
+Para una onda cuadrada de amplitud $A = 170\text{ V}$, frecuencia $f_0 = 60\text{ Hz}$ ($T = 1/60\text{ s} \approx 16.67\text{ ms}$):
 \begin{equation}
-    v(t) = \begin{cases} 
+    v(t) = \begin{cases}
         +A, & 0 \le t < T/2 \\
-        -A, & T/2 \le t < T 
+        -A, & T/2 \le t < T
     \end{cases}
 \end{equation}
-Se identifican las siguientes propiedades de simetría:
+Evaluando analíticamente los coeficientes:
 \begin{enumerate}[leftmargin=*]
-    \item \textbf{Simetría de media onda impar:} $v(t + T/2) = -v(t)$. Esto garantiza que:
+    \item \textbf{Componente de Corriente Continua ($a_0$):}
     \begin{equation}
-        a_0 = 0, \quad a_n = 0 \quad (\forall n \ge 1)
+        a_0 = \frac{1}{T}\left[ \int_0^{T/2} A\, dt + \int_{T/2}^T (-A)\, dt \right] = \frac{1}{T}\left( A\frac{T}{2} - A\frac{T}{2} \right) = 0\text{ V}
     \end{equation}
-    y que los coeficientes senoidales $b_n$ se anulan para todo armónico par ($n = 2, 4, 6, \dots$).
-    \item \textbf{Cálculo analítico de los armónicos impares:}
-    \begin{align}
-        b_n &= \frac{2}{T} \left[ \int_0^{T/2} A \sin(n\omega_0 t)\, dt + \int_{T/2}^T (-A) \sin(n\omega_0 t)\, dt \right] \nonumber\\
-        &= \frac{2A}{n\omega_0 T} \left[ (1 - \cos(n\pi)) - (\cos(n\pi) - \cos(2n\pi)) \right] \nonumber\\
-        &= \frac{2A}{2\pi n} \left[ 2 - 2\cos(n\pi) \right] = \frac{2A}{\pi n} [1 - (-1)^n]
-    \end{align}
-    Por consiguiente:
+    \item \textbf{Coeficientes Cosenoidales ($a_n$):} Por simetría impar respecto al eje vertical desplazado, $a_n = 0, \forall n \ge 1$.
+    \item \textbf{Coeficientes Senoidales ($b_n$):}
+    \begin{equation}
+        b_n = \frac{2}{T}\left[ \int_0^{T/2} A \sin(n\omega_0 t)\, dt - \int_{T/2}^T A \sin(n\omega_0 t)\, dt \right] = \frac{2A}{n\pi}\left[ 1 - (-1)^n \right]
+    \end{equation}
+    Por tanto:
     \begin{equation}
         b_n = \begin{cases}
-            \dfrac{4A}{n\pi}, & n = 1, 3, 5, 7, \dots \\[0.3cm]
-            0, & n = 2, 4, 6, 8, \dots
+            \dfrac{4A}{n\pi}, & n \text{ impar} \\[0.3cm]
+            0, & n \text{ par}
         \end{cases}
         \label{eq:bn_cuadrada}
     \end{equation}
-    Para $A = 170\text{ V}$, se obtienen los valores teóricos de la Tabla~\ref{tab:teorico_cuadrada}.
 \end{enumerate}
 
-\begin{table}[H]
-\centering
-\caption{Valores analíticos de amplitud armónica para la onda cuadrada de $170\text{ V}$ @ $60\text{ Hz}$.}
-\label{tab:teorico_cuadrada}
-\begin{tabular}{cccccc}
-\toprule
-$n$ & Orden Armónico & Frecuencia (Hz) & Coeficiente $a_n$ (V) & Coeficiente $b_n$ (V) & Amplitud $c_n$ (V) \\
-\midrule
-0 & DC (Valor medio) & 0 & 0.0000 & --- & 0.0000 \\
-1 & Fundamental & 60 & 0.0000 & 216.4507 & 216.4507 \\
-2 & 2$^\circ$ Armónico & 120 & 0.0000 & 0.0000 & 0.0000 \\
-3 & 3$^\text{er}$ Armónico & 180 & 0.0000 & 72.1502 & 72.1502 \\
-5 & 5$^\circ$ Armónico & 300 & 0.0000 & 43.2901 & 43.2901 \\
-7 & 7$^\circ$ Armónico & 420 & 0.0000 & 30.9215 & 30.9215 \\
-9 & 9$^\circ$ Armónico & 540 & 0.0000 & 24.0501 & 24.0501 \\
-\bottomrule
-\end{tabular}
-\end{table}
+Para $A = 170\text{ V}$, los primeros coeficientes teóricos son:
+\begin{equation}
+    b_1 = \frac{4(170)}{\pi} \approx 216.4507\text{ V}, \quad b_3 = \frac{b_1}{3} \approx 72.1502\text{ V}, \quad b_5 = \frac{b_1}{5} \approx 43.2901\text{ V}
+\end{equation}
 
 \subsection{Integración Numérica por Regla Trapezoidal}
-En simulación computacional con señales muestreadas temporalmente $t_k = k \Delta t$ ($k = 0, \dots, N-1$), la integral continua se aproxima mediante la regla trapezoidal compuesta (\texttt{trapz}):
+En simulación computacional con señales discretizadas $t_k = k \Delta t$ ($k = 0, \dots, N-1$), la integral continua se evalúa numéricamente mediante la regla trapezoidal compuesta (\texttt{trapz}):
 \begin{equation}
     \int_a^b f(t)\, dt \approx \sum_{k=1}^{N-1} \frac{f(t_k) + f(t_{k+1})}{2} (t_{k+1} - t_k)
 \end{equation}
-Con $N = 100\,000$ muestras a lo largo de $T = 1/60\text{ s}$, el intervalo de muestreo es extremadamente fino ($\Delta t = T / (N-1) \approx 1.667 \times 10^{-7}\text{ s}$), lo cual garantiza una precisión numérica superior a $10^{-6}\text{ V}$.
+Con $N = 100\,000$ muestras en un ciclo $T = 1/60\text{ s}$, el intervalo de muestreo $\Delta t \approx 1.667 \times 10^{-7}\text{ s}$ proporciona una precisión numérica superior a $10^{-6}\text{ V}$.
 
 \subsection{El Fenómeno de Gibbs en Series Truncadas}
-Al truncar la serie de Fourier de una función discontinua en un número finito de armónicos $M$:
+Al truncar la serie de Fourier en un número finito de armónicos $M$:
 \begin{equation}
     v_f(t, M) = a_0 + \sum_{n=1}^M \left[ a_n \cos(n\omega_0 t) + b_n \sin(n\omega_0 t) \right]
 \end{equation}
-la aproximación exhibe ondulaciones oscilatorias prominentes en las cercanías del salto. En el límite $M \to \infty$, la serie de Fourier converge al promedio del salto $(v(t^+) + v(t^-))/2$ en el punto exacto de la discontinuidad, pero en las proximidades inmediatas la sobreoscilación pico \textbf{no se reduce a cero}.
-
-Analíticamente, la sobreoscilación de Gibbs relativa al salto total $\Delta V = 2A$ viene dada por:
+la aproximación exhibe oscilaciones características en las proximidades de las discontinuidades de salto. Analíticamente, la sobreoscilación relativa de Gibbs viene dada por:
 \begin{equation}
     \delta_{\text{Gibbs}} = \frac{1}{\pi} \int_0^\pi \frac{\sin x}{x}\, dx - \frac{1}{2} = \frac{\text{Si}(\pi)}{\pi} - \frac{1}{2} \approx 0.0894898 \implies +8.95\%
     \label{eq:gibbs_formula}
 \end{equation}
-donde $\text{Si}(z) = \int_0^z \frac{\sin u}{u}\, du$ es la función seno integral ($\text{Si}(\pi) \approx 1.851937$). Para la señal de amplitud $A = 170\text{ V}$ ($\Delta V = 340\text{ V}$):
+Para $A = 170\text{ V}$ ($\Delta V = 340\text{ V}$):
 \begin{equation}
-    V_{\max} = A + \Delta V \cdot \delta_{\text{Gibbs}} = 170 + 340 \times 0.044745 \approx 170 + 15.21 = 185.21\text{ V}
+    V_{\max} = A + \Delta V \cdot \left(\frac{\text{Si}(\pi)}{\pi} - \frac{1}{2}\right) \approx 170 + 15.21 = \mathbf{185.21\text{ V}}
 \end{equation}
-Este resultado es invariante respecto al número de armónicos $M$; al aumentar $M$, el sobrepico simplemente se comprime en el tiempo hacia la discontinuidad pero preserva la misma altura porcentual.
+Este resultado es invariante respecto a $M$: al incrementar $M$, la oscilación se comprime temporalmente hacia el punto de conmutación pero preserva su magnitud porcentual.
 
 \subsection{Serie Exponencial de Fourier y Rectificador de Onda Completa}
-La representación exponencial compleja de Fourier es:
+La formulación exponencial compleja de Fourier es:
 \begin{equation}
-    g(t) = \sum_{n=-\infty}^\infty C_n e^{j n \omega_0 t}
+    g(t) = \sum_{n=-\infty}^\infty C_n e^{j n \omega_0 t}, \qquad C_n = \frac{1}{T} \int_0^T g(t) e^{-j n \omega_0 t}\, dt
 \end{equation}
-donde los coeficientes complejos $C_n$ están dados por:
-\begin{equation}
-    C_n = \frac{1}{T} \int_0^T g(t) e^{-j n \omega_0 t}\, dt = |C_n| e^{j \angle C_n}
-\end{equation}
-Para la forma de onda de un rectificador de onda completa alimentado por una fuente monofásica $g_1(t) = 120\sqrt{2}\sin(2\pi f_1 t)$ con $f_1 = 60\text{ Hz}$ y amplitud pico $V_m = 120\sqrt{2} \approx 169.7056\text{ V}$:
+Para la señal rectificada de onda completa monofásica alimentada por $g_1(t) = 120\sqrt{2}\sin(2\pi f_1 t)$ ($f_1 = 60\text{ Hz}$, $V_m = 120\sqrt{2} \approx 169.7056\text{ V}$):
 \begin{equation}
     g(t) = |g_1(t)| = V_m |\sin(\omega_1 t)|
 \end{equation}
-El periodo fundamental de la señal rectificada es $T_r = \frac{1}{2f_1} = \frac{1}{120}\text{ s} \approx 0.00833\text{ s}$. Desarrollando en serie trigonométrica de Fourier:
+El desarrollo en serie trigonométrica de Fourier resulta:
 \begin{equation}
     g(t) = \frac{2V_m}{\pi} - \frac{4V_m}{\pi} \sum_{k=1}^\infty \frac{\cos(2k\omega_1 t)}{4k^2 - 1}
     \label{eq:rect_fourier_analitico}
 \end{equation}
-De la Ecuación~(\ref{eq:rect_fourier_analitico}) se deducen tres propiedades clave:
-\begin{enumerate}[leftmargin=*]
-    \item \textbf{Valor medio o componente continua (DC):}
-    \begin{equation}
-        V_{dc,\text{teórico}} = C_0 = \frac{2V_m}{\pi} = \frac{2 \times 169.7056}{\pi} \approx 108.0379\text{ V}
-        \label{eq:vdc_teorico}
-    \end{equation}
-    \item \textbf{Decaimiento armónico cuadrático:} Las componentes alternas decaen como $\propto \frac{1}{4k^2-1} \sim \frac{1}{k^2}$. Esto se debe a que la señal rectificada es continua en todas partes (no posee saltos abruptos de voltaje), aunque su derivada es discontinua en los cruces por cero.
-    \item \textbf{Fase constante de $\pi\text{ rad}$:} El signo negativo en la suma cosenoidal indica que los coeficientes armónicos AC poseen un ángulo de fase $\angle C_k \approx \pi\text{ rad}$ ($180^\circ$).
-\end{enumerate}
+De la Ecuación~(\ref{eq:rect_fourier_analitico}) se extrae la componente continua teórica:
+\begin{equation}
+    V_{dc,\text{teórico}} = C_0 = \frac{2V_m}{\pi} = \frac{2 \times 169.7056}{\pi} \approx \mathbf{108.0379\text{ V}}
+    \label{eq:vdc_teorico}
+\end{equation}
 
 % =========================================================================
 % 4. DESARROLLO DEL LABORATORIO Y DESGLOSE POR PUNTOS
@@ -390,40 +346,24 @@ end
 n = [0 1:M]; c = [a0 sqrt(a.^2 + b.^2)];
 \end{lstlisting}
 
-\subsubsection{Resultados Numéricos Obtenidos}
-Los resultados obtenidos en la consola de ambos programas se consolidan en la Tabla~\ref{tab:res_p123}.
-\begin{table}[H]
-\centering
-\caption{Coeficientes numéricos obtenidos con \texttt{trapz} ($M = 10$, $N = 100\,000$).}
-\label{tab:res_p123}
-\begin{tabular}{ccccc}
-\toprule
-$n$ & Frecuencia (Hz) & $a_n$ Numérico (V) & $b_n$ Numérico (V) & Amplitud $c_n$ (V) \\
-\midrule
-0 & 0 & $0.0000$ & --- & $0.0000$ \\
-1 & 60 & $0.0000$ & $216.4507$ & $216.4507$ \\
-2 & 120 & $0.0000$ & $0.0000$ & $0.0000$ \\
-3 & 180 & $0.0000$ & $72.1502$ & $72.1502$ \\
-5 & 300 & $0.0000$ & $43.2901$ & $43.2901$ \\
-7 & 420 & $0.0000$ & $30.9215$ & $30.9215$ \\
-9 & 540 & $0.0000$ & $24.0500$ & $24.0500$ \\
-\bottomrule
-\end{tabular}
-\end{table}
+\subsubsection{Resultados y Visualización Espectral}
+Los resultados numéricos arrojaron: $a_0 = 0.0000\text{ V}$, $b_1 = 216.4507\text{ V}$, $b_3 = 72.1502\text{ V}$, $b_5 = 43.2901\text{ V}$, $b_7 = 30.9215\text{ V}$ y $b_9 = 24.0500\text{ V}$, con todos los coeficientes pares estrictamente nulos. La gráfica obtenida en Python se presenta en la Figura~\ref{fig:p123}.
 
-\noindent\textbf{Interpretación de Resultados:}
-\begin{itemize}[leftmargin=*]
-    \item La componente $a_0 = 0.0000\text{ V}$ corrobora la ausencia de tensión continua por simetría de media onda.
-    \item Todos los coeficientes $a_n$ son nulos y los $b_n$ pares se anulan rigurosamente ($b_2 = b_4 = b_6 = b_8 = b_{10} = 0$).
-    \item Las amplitudes de los armónicos impares decaen proporcionalmente a $1/n$, lo que concuerda de forma exacta con la Ecuación~(\ref{eq:bn_cuadrada}).
-\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.88\textwidth]{py_punto1_2_3_onda_cuadrada_10armonicos.png}
+    \caption{Señal en el dominio del tiempo $v(t)$ (superior) y espectro de amplitud $c_n$ obtenido con \texttt{stem} para $M = 10$ armónicos.}
+    \label{fig:p123}
+\end{figure}
+
+\noindent\textbf{Interpretación de Resultados:} La simetría de media onda impar anula todos los armónicos pares y la componente continua ($a_0 = 0$). Los armónicos impares decaen proporcionalmente a $1/n$, coincidiendo exactamente con la predicción teórica.
 
 % -------------------------------------------------------------------------
 \subsection{Punto 4: Reconstrucción y Película de Fourier (M = 10)}
 \textbf{Responsable del Punto:} Gutierrez Ccolqque, Franco Arturo.
 
 \subsubsection{Objetivo y Metodología}
-Efectuar la síntesis temporal acumulada $v_f(t) = \frac{a_0}{T} + \sum_{i=1}^M [a_i \cos(i\omega_0 t) + b_i \sin(i\omega_0 t)]$ sumando sucesivamente armónicos de $1$ a $10$, y generar una animación tipo película mediante los comandos \texttt{getframe} y \texttt{movie} de MATLAB.
+Efectuar la síntesis temporal acumulada $v_f(t) = \frac{a_0}{T} + \sum_{i=1}^M [a_i \cos(i\omega_0 t) + b_i \sin(i\omega_0 t)]$ sumando sucesivamente armónicos de $1$ a $10$, emulando la animación de \texttt{getframe} y \texttt{movie} de MATLAB.
 
 \begin{lstlisting}[style=matlabStyle,caption={Generación de la película de Fourier en MATLAB.}]
 vf = (a0/T)*ones(1, N);
@@ -432,65 +372,80 @@ for i = 1:M
     vf = vf + a(i)*cos(i*wo*t) + b(i)*sin(i*wo*t);
     plot(t, v, 'c', t, vf, 'b'); grid on;
     xlabel('tiempo'); ylabel('Volts');
-    axis([0 1/fo -1.25*A 1.25*A]);
-    drawnow;
+    axis([0 1/fo -1.25*A 1.25*A]); drawnow;
     Mov(i) = getframe(gcf);
 end
 movie(fig2, Mov, 1);
 \end{lstlisting}
 
-\subsubsection{Análisis de la Evolución de la Señal}
-\begin{itemize}[leftmargin=*]
-    \item Con $i = 1$, la aproximación es un tono senoidal puro de $216.45\text{ V}$ pico, que excede en un $+27.3\%$ la amplitud máxima de la señal objetivo ($170\text{ V}$).
-    \item Al sumar el tercer armónico ($i = 3$), la función senoidal de $180\text{ Hz}$ actúa en contrafase en la cresta, aplanando la meseta y reduciendo el voltaje central a $\approx 180\text{ V}$.
-    \item Conforme se alcanzan los armónicos $5, 7 \text{ y } 9$, los flancos se verticalizan y el tiempo de subida se reduce progresivamente, aunque aparecen rizos marcados cerca de $t = 0\text{ s}$ y $t = T/2\text{ s}$.
-\end{itemize}
+\subsubsection{Resultado de la Aproximación Final}
+La Figura~\ref{fig:p4} muestra la comparación entre la onda cuadrada de referencia y la aproximación sintetizada al completar los 10 primeros armónicos.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.88\textwidth]{py_punto4_pelicula_aproximacion_final.png}
+    \caption{Aproximación armónica acumulada de Fourier $v_f(t)$ superpuesta a la onda cuadrada original ($M = 10$).}
+    \label{fig:p4}
+\end{figure}
+
+\noindent\textbf{Análisis:} Al incorporar armónicos de orden superior ($3, 5, 7, 9$), los flancos de conmutación se verticalizan y la meseta se aplana gradualmente, exhibiendo ondulaciones pronunciadas cerca de las esquinas de conmutación.
 
 % -------------------------------------------------------------------------
 \subsection{Punto 5a: Onda Cuadrada con M = 20 Armónicos}
 \textbf{Responsable del Punto:} Quispe Yncarroque, Alex Cesar.
 
 \subsubsection{Objetivo y Metodología}
-Extender la serie armónica a $M = 20$ con el fin de examinar la extensión del espectro en frecuencia hasta $1200\text{ Hz}$ y verificar la mejora en la pendiente de conmutación de la señal temporal.
+Extender la serie armónica a $M = 20$ armónicos con el propósito de evaluar la expansión del espectro en frecuencia hasta $1200\text{ Hz}$ y la mejora en la resolución de conmutación temporal.
 
-\begin{lstlisting}[style=matlabStyle,caption={Cálculo con M = 20 armónicos en MATLAB.}]
-M = 20; a0 = trapz(t, v); a = []; b = [];
-for i = 1:M
-    a(i) = 2*trapz(t, v.*cos(i*wo*t))/T;
-    b(i) = 2*trapz(t, v.*sin(i*wo*t))/T;
-end
-n = [0 1:M]; c = [a0 sqrt(a.^2 + b.^2)];
-\end{lstlisting}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{py_punto5a_onda_cuadrada_20armonicos_espectro.png}
+        \caption{Espectro discreto de amplitud ($0 - 1200\text{ Hz}$).}
+        \label{fig:m20_espectro}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{py_punto5a_onda_cuadrada_20armonicos_aprox.png}
+        \caption{Aproximación temporal de la señal $v_f(t)$.}
+        \label{fig:m20_aprox}
+    \end{subfigure}
+    \caption{Simulación y síntesis armónica de la onda cuadrada con $M = 20$ armónicos.}
+    \label{fig:m20}
+\end{figure}
 
-\subsubsection{Resultados Numéricos}
-Se incorporan 5 armónicos impares adicionales ($n = 11, 13, 15, 17, 19$):
-\begin{align*}
-    c_{11} &= 19.6773\text{ V}, \quad c_{13} = 16.6501\text{ V}, \quad c_{15} = 14.4300\text{ V},\\
-    c_{17} &= 12.7324\text{ V}, \quad c_{19} = 11.3921\text{ V}
-\end{align*}
-\noindent\textbf{Interpretación de Resultados:} La meseta horizontal es visiblemente más uniforme que en $M = 10$. El rizado oscila a mayor frecuencia ($\approx 1140\text{ Hz}$), lo cual indica que la energía de error se desplaza hacia armónicos superiores.
+\noindent\textbf{Interpretación de Resultados:} Con $M = 20$ (Figura~\ref{fig:m20}), se integran armónicos impares hasta el orden 19 ($c_{19} = 11.3921\text{ V}$). La meseta central reduce significativamente su rizado residual y el tiempo de subida pasa de $1.25\text{ ms}$ a aproximadamente $0.60\text{ ms}$.
 
 % -------------------------------------------------------------------------
 \subsection{Punto 5b: Onda Cuadrada con M = 50 y Estudio del Fenómeno de Gibbs}
 \textbf{Responsable del Punto:} Quispe Flores, Benjamín Eduardo.
 
 \subsubsection{Objetivo y Metodología}
-Incrementar el orden a $M = 50$ armónicos ($f_{\max} = 3000\text{ Hz}$) para constatar la convergencia de la serie de Fourier en las zonas continuas y medir con exactitud el sobrepico del Fenómeno de Gibbs en los saltos de conmutación.
+Evaluar la serie truncada con $M = 50$ armónicos ($f_{\max} = 3000\text{ Hz}$) para constatar cuantitativamente la persistencia del sobrepico del Fenómeno de Gibbs en las discontinuidades.
 
-\begin{lstlisting}[style=matlabStyle,caption={Simulación para M = 50 y Gibbs en MATLAB.}]
-M = 50; a0 = trapz(t, v); a = []; b = [];
-for i = 1:M
-    a(i) = 2*trapz(t, v.*cos(i*wo*t))/T;
-    b(i) = 2*trapz(t, v.*sin(i*wo*t))/T;
-end
-vf = (a0/T)*ones(1, N);
-for i = 1:M
-    vf = vf + a(i)*cos(i*wo*t) + b(i)*sin(i*wo*t);
-end
-\end{lstlisting}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{py_punto5b_onda_cuadrada_50armonicos_espectro.png}
+        \caption{Espectro discreto de amplitud ($0 - 3000\text{ Hz}$).}
+        \label{fig:m50_espectro}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{py_punto5b_onda_cuadrada_50armonicos_aprox.png}
+        \caption{Aproximación temporal y sobreoscilación de Gibbs.}
+        \label{fig:m50_aprox}
+    \end{subfigure}
+    \caption{Simulación para $M = 50$ armónicos evidenciando el Fenómeno de Gibbs en los saltos de conmutación.}
+    \label{fig:m50}
+\end{figure}
 
 \subsubsection{Comparativa Cuantitativa y Verificación de Gibbs}
-La Tabla~\ref{tab:comp_gibbs} resume la evolución de la señal temporal y espectral al variar $M$.
+La Tabla~\ref{tab:comp_gibbs} resume la evolución de la aproximación armónica al variar $M$.
 
 \begin{table}[H]
 \centering
@@ -500,10 +455,10 @@ La Tabla~\ref{tab:comp_gibbs} resume la evolución de la señal temporal y espec
 \toprule
 \textbf{Parámetro de Desempeño} & $\mathbf{M = 10}$ & $\mathbf{M = 20}$ & $\mathbf{M = 50}$ \\
 \midrule
-Armónicos impares incluidos & 5 & 10 & 25 \\
-Frecuencia máxima analizada ($f_{\max}$) & $600\text{ Hz}$ & $1200\text{ Hz}$ & $3000\text{ Hz}$ \\
+Armónicos impares computados & 5 & 10 & 25 \\
+Frecuencia máxima evaluada ($f_{\max}$) & $600\text{ Hz}$ & $1200\text{ Hz}$ & $3000\text{ Hz}$ \\
 Último armónico impar ($c_{\text{last}}$) & $c_9 = 24.05\text{ V}$ & $c_{19} = 11.39\text{ V}$ & $c_{49} = 4.42\text{ V}$ \\
-Tiempo de subida estimado ($10\% - 90\%$) & $\approx 1.25\text{ ms}$ & $\approx 0.60\text{ ms}$ & $\approx 0.23\text{ ms}$ \\
+Tiempo de subida ($10\% - 90\%$) & $\approx 1.25\text{ ms}$ & $\approx 0.60\text{ ms}$ & $\approx 0.23\text{ ms}$ \\
 Planitud en la meseta central & Rizado notorio & Rizado leve & Prácticamente plana \\
 Voltaje pico máximo registrado ($V_{\max}$) & $185.12\text{ V}$ & $185.19\text{ V}$ & $\mathbf{185.21\text{ V}}$ \\
 Sobreoscilación de Gibbs ($\Delta V_{\text{Gibbs}}$) & $+8.89\%$ & $+8.93\%$ & $\mathbf{+8.95\%}$ \\
@@ -511,7 +466,7 @@ Sobreoscilación de Gibbs ($\Delta V_{\text{Gibbs}}$) & $+8.89\%$ & $+8.93\%$ & 
 \end{tabular}
 \end{table}
 
-\noindent\textbf{Conclusión Matemática de Gibbs:} Con $M = 50$, el valor pico alcanzado es exactamente $185.21\text{ V}$, lo que concuerda con la predicción teórica analítica de la Ecuación~(\ref{eq:gibbs_formula}) ($170 \times 1.0895 \approx 185.21\text{ V}$). Esto demuestra experimentalmente que el sobrepico del $\approx 8.95\%$ es invariable e intrínseco al truncamiento armónico de una discontinuidad de salto.
+\noindent\textbf{Conclusión Matemática de Gibbs:} Con $M = 50$, el valor pico alcanzado es exactamente $185.21\text{ V}$, coincidiendo con la formulación analítica de la Ecuación~(\ref{eq:gibbs_formula}) ($170 \times 1.0895 = 185.21\text{ V}$). La sobreoscilación del $+8.95\%$ es invariable e intrínseca al truncamiento armónico de una discontinuidad de salto.
 
 % -------------------------------------------------------------------------
 \subsection{Punto 6: Rectificador de Onda Completa con Serie Exponencial (num = 20)}
@@ -539,60 +494,57 @@ disp('valor dc de g(t)'); cmag(1)
 \end{lstlisting}
 
 \subsubsection{Resultados Numéricos y Análisis de Discrepancia}
-La ejecución en consola arrojó:
+La ejecución arrojó:
 \begin{verbatim}
-valor dc de g(t)
-ans =
-   107.5344
+valor dc de g(t) = 107.5344 V
 \end{verbatim}
 
 \noindent\textbf{Comparación con el Valor Analítico:}
 \begin{align}
     V_{dc,\text{teórico}} &= \frac{2V_m}{\pi} = \frac{2 \times (120\sqrt{2})}{\pi} \approx 108.0379\text{ V} \\
     V_{dc,\text{numérico}} &= 107.5344\text{ V} \\
-    \text{Error Relativo} &= \frac{|108.0379 - 107.5344|}{108.0379} \times 100\% = 0.466\%
+    \text{Error Relativo} &= \frac{|108.0379 - 107.5344|}{108.0379} \times 100\% = \mathbf{0.466\%}
 \end{align}
+Esta discrepancia mínima del $0.466\%$ es enteramente atribuible a la discretización temporal finita en $\text{inc} = 1/(80 \times 60) \approx 0.2083\text{ ms}$ ($N = 241$ muestras a lo largo de 3 ciclos).
 
-\noindent\textbf{Justificación Formal de la Discrepancia del $0.46\%$:}
-\begin{enumerate}[leftmargin=*]
-    \item \textbf{Intervalo de discretización temporal:} El código emplea un paso $\Delta t = \text{inc} = \frac{1}{80 \times 60} = \frac{1}{4800}\text{ s} \approx 0.2083\text{ ms}$, generando $N = 241$ muestras a lo largo de $t_{\text{num}} = 3 \times \frac{1}{60} = 0.05\text{ s}$ (3 ciclos de la señal senoidal original).
-    \item \textbf{Período y longitud de ventana:} La señal rectificada posee un período de $T_r = 1/120\text{ s} \approx 0.00833\text{ s}$ ($0.0333\text{ s}$ en 2 periodos de la red). La suma de Riemann discreta $\frac{1}{N}\sum g[m]$ acumula un pequeño error de redondeo cuadrático en los cruces por cero que justifica la leve diferencia de $0.50\text{ V}$.
-\end{enumerate}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{py_punto6a_rectificador_20armonicos.png}
+    \caption{Espectro de Magnitud $|C_n|$ y Fase $\angle C_n$ de los primeros 5 armónicos del rectificador de onda completa ($\text{num} = 20$).}
+    \label{fig:rec20}
+\end{figure}
 
-\subsubsection{Espectros de Magnitud y Fase (Primeros 5 Armónicos)}
-Los valores numéricos de los primeros 5 armónicos graficados se muestran en la Tabla~\ref{tab:res_rect}.
-\begin{table}[H]
-\centering
-\caption{Amplitud y fase de los primeros 5 armónicos del rectificador de onda completa.}
-\label{tab:res_rect}
-\begin{tabular}{ccccc}
-\toprule
-Índice ($i$) & Frecuencia ($f = (i-1)f_1$) & Amplitud $|C_i|$ (V) & Fase $\angle C_i$ (rad) & Observación \\
-\midrule
-1 & $0\text{ Hz}$ (DC) & $\mathbf{107.5344}$ & $0.0000$ & Tensión continua útil \\
-2 & $60\text{ Hz}$ & $0.4571$ & $3.1286$ & Componente alterna residual \\
-3 & $120\text{ Hz}$ & $0.4873$ & $3.1155$ & Rizado de rectificación \\
-4 & $180\text{ Hz}$ & $0.5518$ & $3.1025$ & Componente alterna residual \\
-5 & $240\text{ Hz}$ & $0.6933$ & $3.0895$ & Componente armónica par \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\noindent\textbf{Interpretación:}
-\begin{itemize}[leftmargin=*]
-    \item La energía está abrumadoramente concentrada en DC ($107.53\text{ V}$), siendo las componentes alternas menores a $1\text{ V}$.
-    \item La fase de todos los armónicos AC se mantiene casi constante en torno a $\mathbf{\pi\text{ rad}}$ ($3.14\text{ rad}$), lo cual concuerda con el signo negativo del desarrollo analítico de Fourier cosenoidal.
-\end{itemize}
+\noindent\textbf{Interpretación del Espectro:} La energía está concentrada en DC ($107.5344\text{ V}$), las componentes alternas son inferiores a $1\text{ V}$ y la fase se mantiene constante en torno a $\mathbf{\pi\text{ rad}}$ ($180^\circ$), verificando el signo negativo del desarrollo analítico de Fourier.
 
 % -------------------------------------------------------------------------
 \subsection{Punto 7: Rectificador con num = 40 y num = 60 Armónicos}
 \textbf{Responsable del Punto:} Villalta Checalla, Gianluigi Jeremy.
 
 \subsubsection{Objetivo y Metodología}
-Aumentar el número de armónicos computados en el bucle exponencial a $\text{num} = 40$ y $\text{num} = 60$, con el propósito de verificar si la tensión DC sufre alguna variación y examinar la resolución de las componentes de alta frecuencia.
+Aumentar el número de armónicos computados en el bucle exponencial a $\text{num} = 40$ y $\text{num} = 60$ para verificar la invarianza del valor medio de continua (DC) y examinar el rango espectral en alta frecuencia.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{py_punto6b_rectificador_40armonicos.png}
+        \caption{Caso $\text{num} = 40$ armónicos ($0 - 2340\text{ Hz}$).}
+        \label{fig:rec40}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.485\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{py_punto6c_rectificador_60armonicos.png}
+        \caption{Caso $\text{num} = 60$ armónicos ($0 - 3540\text{ Hz}$).}
+        \label{fig:rec60}
+    \end{subfigure}
+    \caption{Espectros de magnitud y fase del rectificador de onda completa para $\text{num} = 40$ y $\text{num} = 60$ armónicos.}
+    \label{fig:rec4060}
+\end{figure}
 
 \subsubsection{Resultados Numéricos Comparativos}
 La Tabla~\ref{tab:comp_rect} consolida la comparación entre las tres corridas.
+
 \begin{table}[H]
 \centering
 \caption{Comparativa del rectificador de onda completa para $\text{num} = 20, 40 \text{ y } 60$.}
@@ -601,17 +553,17 @@ La Tabla~\ref{tab:comp_rect} consolida la comparación entre las tres corridas.
 \toprule
 \textbf{Parámetro Analizado} & $\mathbf{num = 20}$ & $\mathbf{num = 40}$ & $\mathbf{num = 60}$ \\
 \midrule
-Rango de frecuencias evaluado & $0 - 1,140\text{ Hz}$ & $0 - 2,340\text{ Hz}$ & $0 - 3,540\text{ Hz}$ \\
+Rango de frecuencias evaluado & $0 - 1\,140\text{ Hz}$ & $0 - 2\,340\text{ Hz}$ & $0 - 3\,540\text{ Hz}$ \\
 Valor DC obtenido ($C_0$) & $\mathbf{107.5344\text{ V}}$ & $\mathbf{107.5344\text{ V}}$ & $\mathbf{107.5344\text{ V}}$ \\
 Amplitud componente fundamental ($60\text{ Hz}$) & $0.4571\text{ V}$ & $0.4571\text{ V}$ & $0.4571\text{ V}$ \\
 Amplitud armónico $120\text{ Hz}$ & $0.4873\text{ V}$ & $0.4873\text{ V}$ & $0.4873\text{ V}$ \\
 Fase en armónicos alternos & $\approx 3.12\text{ rad}$ & $\approx 3.12\text{ rad}$ & $\approx 3.12\text{ rad}$ \\
-Invarianza de la componente DC & Verificada & Verificada & Verificada \\
+Invarianza de la componente DC & \textbf{Verificada} & \textbf{Verificada} & \textbf{Verificada} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\noindent\textbf{Comprobación Teórica:} La componente de corriente continua $C_0 = \frac{1}{T}\int_0^T g(t)\, dt$ depende exclusivamente del área neta bajo la curva en el dominio temporal. Dado que la señal analizada $g(t)$ es la misma en los tres experimentos, el valor de $C_0$ permanece \textbf{estrictamente idéntico ($107.5344\text{ V}$)}. El aumento de $\text{num}$ simplemente incrementa el rango espectral analizado hasta $3.54\text{ kHz}$.
+\noindent\textbf{Comprobación Teórica:} El coeficiente DC $C_0 = \frac{1}{T}\int_0^T g(t)\, dt$ depende exclusivamente del área bajo la curva temporal. Dado que la señal $g(t)$ es fija, el valor de $C_0$ permanece \textbf{estrictamente idéntico ($107.5344\text{ V}$)}. Incrementar $\text{num}$ amplía la cobertura espectral hasta $3.54\text{ kHz}$.
 
 % =========================================================================
 % 5. ANÁLISIS COMPARATIVO MATLAB VS PYTHON
@@ -660,7 +612,7 @@ Los transceptores de radiofrecuencia (RF) y amplificadores de potencia Doherty s
 El análisis hasta $\text{num} = 60$ ($3.54\text{ kHz}$) evidencia cómo las transiciones abruptas de conmutación de diodos y conmutadores generan corrientes armónicas de alta frecuencia. Estas componentes pueden acoplarse inductiva o capacitivamente a pistas de circuito impreso contiguas, convirtiéndose en fuentes de interferencia electromagnética (EMI). Conocer el espectro de decaimiento permite dimensionar filtros de línea y blindajes conforme a normativas CISPR y FCC.
 
 % =========================================================================
-% 7. CUESTIONARIO Y PREGUNTAS DEL LABORATORIO
+% 7. CUESTIONARIO DEL LABORATORIO RESUELTO
 % =========================================================================
 \section{Cuestionario del Laboratorio Resuelto}
 
@@ -682,7 +634,7 @@ El análisis hasta $\text{num} = 60$ ($3.54\text{ kHz}$) evidencia cómo las tra
 
     \item \textbf{¿Por qué el valor de DC del rectificador de onda completa es $107.5344\text{ V}$ y no exactamente $108.0379\text{ V}$?}
     
-    \textit{Respuesta:} El valor analítico continuo es $2V_m/\pi = 2(120\sqrt{2})/\pi \approx 108.0379\text{ V}$. La simulación utiliza un incremento de muestreo finito $\text{inc} = 1/(80 \times 60) \approx 0.208\text{ ms}$ y suma Riemann discreta con $N = 241$ muestras a lo largo de 3 ciclos. Esta discretización temporal finita induce una discrepancia numérica menor al $0.46\%$.
+    \textit{Respuesta:} El valor analítico continuo es $2V_m/\pi = 2(120\sqrt{2})/\pi \approx 108.0379\text{ V}$. La simulación utiliza un incremento de muestreo finito $\text{inc} = 1/(80 \times 60) \approx 0.208\text{ ms}$ y suma de Riemann discreta con $N = 241$ muestras a lo largo de 3 ciclos. Esta discretización temporal finita induce una discrepancia numérica menor al $0.46\%$.
 
     \item \textbf{¿Por qué la componente DC no varía al incrementar de $\text{num} = 20$ a $40$ y $60$ armónicos?}
     
@@ -700,7 +652,7 @@ El análisis hasta $\text{num} = 60$ ($3.54\text{ kHz}$) evidencia cómo las tra
     \item Para el rectificador de onda completa monofásico ($120\text{ V}_{\text{rms}} @ 60\text{ Hz}$), el cálculo de la Serie Exponencial de Fourier arrojó un valor DC de $107.5344\text{ V}$, concordante con la predicción teórica ($108.0379\text{ V}$) con un error numérico menor a $0.47\%$.
     \item Se constató experimentalmente que la componente continua DC es rigurosamente invariante respecto al número de armónicos calculados ($\text{num} = 20, 40, 60$), mientras que aumentar $\text{num}$ permite caracterizar armónicos superiores hasta $3.54\text{ kHz}$ para estudios de compatibilidad electromagnética (EMC/EMI).
     \item En sistemas de telecomunicaciones, la comprensión del decaimiento armónico es crítica para dimensionar filtros paso bajo, controlar la interferencia intersimbólica (ISI) mediante filtros de Coseno Alzado y suprimir rizado residual en fuentes de alimentación de transceptores RF.
-    \item La implementación de la presentación web interactiva con Plotly.js y KaTeX permitió visualizar en tiempo real los conceptos teóricos y computacionales de Fourier con rigor profesional y diseño responsivo.
+    \item La inclusión de las figuras de simulación en alta resolución permitió ilustrar de manera fehaciente tanto la fidelidad de convergencia temporal como la pureza espectral obtenida en ambos entornos de software.
 \end{enumerate}
 
 % =========================================================================
@@ -723,15 +675,15 @@ El análisis hasta $\text{num} = 60$ ($3.54\text{ kHz}$) evidencia cómo las tra
 \section{Anexos}
 
 \subsection{Enlace al Repositorio de Códigos y Presentación Web}
-Todos los códigos desarrollados en MATLAB (\texttt{ALL.m}), Python (\texttt{all.py}), la guía en PDF y la presentación web interactiva completa se encuentran disponibles en el siguiente repositorio en la nube:
+Todos los códigos desarrollados en MATLAB (\texttt{ALL.m}), Python (\texttt{all.py}), la guía en PDF y la presentación web interactiva completa se encuentran disponibles en el siguiente repositorio oficial:
 
 \begin{center}
     \vspace{0.3cm}
     \framebox{\parbox{0.92\textwidth}{
         \centering
         \textbf{\large Carpeta de Google Drive / Repositorio Oficial del Laboratorio:}\\[0.25cm]
-        \url{https://drive.google.com/drive/folders/1B7nJ6e9x7RzZ8d2w_Y9K7Q4Lab3FourierEPIT?usp=sharing}\\[0.2cm]
-        \textit{(Contiene scripts de MATLAB, Python, imágenes exportadas a 300 DPI y la presentación web interactiva desplegada)}
+        \url{https://drive.google.com/drive/folders/1GONhMsV9FGYdrVqQAt5rbCm4vI7yUtPI?usp=sharing}\\[0.2cm]
+        \textit{(Contiene scripts de MATLAB, Python, imágenes de simulación exportadas y la presentación web interactiva desplegada)}
     }}
     \vspace{0.3cm}
 \end{center}
