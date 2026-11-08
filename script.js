@@ -436,21 +436,21 @@ const rectData40 = getRectifierData(40);
 const rectData60 = getRectifierData(60);
 
 // =========================================================================
-// 3. GENERADOR DE GRÁFICAS PLOTLY (LINEAR PURE BLACK PALETTE)
+// 3. GENERADOR DE GRÁFICAS PLOTLY (DSP SLATE & CYAN PRECISION)
 // =========================================================================
 const plotlyLayoutBase = {
   paper_bgcolor: 'rgba(0,0,0,0)',
-  plot_bgcolor: 'rgba(8, 9, 11, 0.7)',
-  font: { family: 'Inter, sans-serif', color: '#9ca3af', size: 12 },
+  plot_bgcolor: 'rgba(11, 15, 25, 0.75)',
+  font: { family: 'Inter, system-ui, sans-serif', color: '#94a3b8', size: 12 },
   margin: { l: 55, r: 25, t: 30, b: 45 },
   showlegend: false
 };
 
 const axisConfig = {
-  gridcolor: '#1d2027',
-  zerolinecolor: '#2c303a',
-  tickcolor: '#2c303a',
-  tickfont: { size: 11, color: '#9ca3af' }
+  gridcolor: 'rgba(51, 65, 85, 0.4)',
+  zerolinecolor: 'rgba(51, 65, 85, 0.65)',
+  tickcolor: '#334155',
+  tickfont: { size: 11, color: '#94a3b8', family: 'Fira Code, monospace' }
 };
 
 // Slide 1
@@ -458,8 +458,8 @@ function renderPlotSlide1() {
   const fData = getSquareFourierCoeffs(10);
   const traceArea = {
     x: timeVec, y: vSquare, type: 'scatter', fill: 'tozeroy',
-    fillcolor: 'rgba(0, 242, 254, 0.25)',
-    line: { color: '#00f2fe', width: 2 },
+    fillcolor: 'rgba(6, 182, 212, 0.18)',
+    line: { color: '#06b6d4', width: 2 },
     name: 'v(t)', xaxis: 'x', yaxis: 'y'
   };
 
@@ -468,13 +468,13 @@ function renderPlotSlide1() {
     traceStemLines.push({
       type: 'line', xref: 'x2', yref: 'y2',
       x0: fData.freqs[k], y0: 0, x1: fData.freqs[k], y1: fData.coeffs[k],
-      line: { color: '#00f2fe', width: 3 }
+      line: { color: '#38bdf8', width: 3 }
     });
   }
 
   const traceStemMarkers = {
     x: fData.freqs, y: fData.coeffs, mode: 'markers', type: 'scatter',
-    marker: { size: 7, color: '#e4f222' },
+    marker: { size: 7, color: '#22d3ee', line: { color: '#030712', width: 1 } },
     name: 'c_n', xaxis: 'x2', yaxis: 'y2'
   };
 
@@ -507,13 +507,13 @@ function renderPlotSlide2(M) {
 
   const traceOrig = {
     x: timeVec, y: vSquare, mode: 'lines',
-    line: { color: 'rgba(0, 242, 254, 0.4)', width: 2, dash: 'dot' },
+    line: { color: 'rgba(6, 182, 212, 0.45)', width: 2, dash: 'dot' },
     name: 'v(t) Original'
   };
 
   const traceRecon = {
     x: timeVec, y: vf, mode: 'lines',
-    line: { color: '#e4f222', width: 2.5 },
+    line: { color: '#38bdf8', width: 2.8 },
     name: 'vf(t) (M=' + p4CurrentM + ')'
   };
 
@@ -572,8 +572,8 @@ function renderPlotSlide3() {
     const fData = getSquareFourierCoeffs(20);
     const traceArea = {
       x: timeVec, y: vSquare, type: 'scatter', fill: 'tozeroy',
-      fillcolor: 'rgba(0, 242, 254, 0.25)',
-      line: { color: '#00f2fe', width: 2 },
+      fillcolor: 'rgba(6, 182, 212, 0.18)',
+      line: { color: '#06b6d4', width: 2 },
       name: 'v(t)', xaxis: 'x', yaxis: 'y'
     };
 
@@ -582,13 +582,13 @@ function renderPlotSlide3() {
       stemLines.push({
         type: 'line', xref: 'x2', yref: 'y2',
         x0: fData.freqs[k], y0: 0, x1: fData.freqs[k], y1: fData.coeffs[k],
-        line: { color: '#00f2fe', width: 2.5 }
+        line: { color: '#38bdf8', width: 2.5 }
       });
     }
 
     const traceStem = {
       x: fData.freqs, y: fData.coeffs, mode: 'markers', type: 'scatter',
-      marker: { size: 6, color: '#e4f222' },
+      marker: { size: 6, color: '#22d3ee', line: { color: '#030712', width: 1 } },
       xaxis: 'x2', yaxis: 'y2'
     };
 
@@ -608,12 +608,12 @@ function renderPlotSlide3() {
     const vf = synthesizeSquareWave(20);
     const traceOrig = {
       x: timeVec, y: vSquare, mode: 'lines',
-      line: { color: 'rgba(0, 242, 254, 0.4)', width: 2, dash: 'dot' },
+      line: { color: 'rgba(6, 182, 212, 0.45)', width: 2, dash: 'dot' },
       name: 'v(t) Original'
     };
     const traceRecon = {
       x: timeVec, y: vf, mode: 'lines',
-      line: { color: '#e4f222', width: 2.5 },
+      line: { color: '#38bdf8', width: 2.8 },
       name: 'vf(t) (M = 20)'
     };
     const layout = {
@@ -643,12 +643,12 @@ function renderPlotSlide4() {
     const vf = synthesizeSquareWave(50);
     const traceOrig = {
       x: timeVec, y: vSquare, mode: 'lines',
-      line: { color: 'rgba(0, 242, 254, 0.35)', width: 2, dash: 'dot' },
+      line: { color: 'rgba(6, 182, 212, 0.4)', width: 2, dash: 'dot' },
       name: 'v(t) Original'
     };
     const traceRecon = {
       x: timeVec, y: vf, mode: 'lines',
-      line: { color: '#e4f222', width: 2 },
+      line: { color: '#38bdf8', width: 2.2 },
       name: 'vf(t) (M = 50)'
     };
 
@@ -663,8 +663,8 @@ function renderPlotSlide4() {
           x: 0.0003, y: 185.2, xref: 'x', yref: 'y',
           text: 'Sobrepico de Gibbs: 185.21 V (+8.95%)',
           showarrow: true, arrowhead: 2, ax: 45, ay: -35,
-          font: { color: '#e4f222', size: 12, weight: 700 },
-          arrowcolor: '#e4f222'
+          font: { color: '#38bdf8', size: 12, weight: 700 },
+          arrowcolor: '#38bdf8'
         }
       ],
       margin: { l: 60, r: 25, t: 40, b: 45 }
@@ -676,12 +676,12 @@ function renderPlotSlide4() {
     for (let k = 0; k < fData.freqs.length; k++) {
       stemLines.push({
         type: 'line', x0: fData.freqs[k], y0: 0, x1: fData.freqs[k], y1: fData.coeffs[k],
-        line: { color: '#00f2fe', width: 1.5 }
+        line: { color: '#06b6d4', width: 1.8 }
       });
     }
     const traceStem = {
       x: fData.freqs, y: fData.coeffs, mode: 'markers', type: 'scatter',
-      marker: { size: 4, color: '#e4f222' }
+      marker: { size: 4.5, color: '#22d3ee' }
     };
     const layout = {
       ...plotlyLayoutBase,
@@ -707,24 +707,24 @@ function renderPlotSlide5() {
     stemLinesMag.push({
       type: 'line', xref: 'x', yref: 'y',
       x0: f5[k], y0: 0, x1: f5[k], y1: mag5[k],
-      line: { color: '#00f2fe', width: 3 }
+      line: { color: '#06b6d4', width: 3.5 }
     });
     stemLinesPhase.push({
       type: 'line', xref: 'x2', yref: 'y2',
       x0: f5[k], y0: 0, x1: f5[k], y1: phase5[k],
-      line: { color: '#a855f7', width: 3 }
+      line: { color: '#a855f7', width: 3.5 }
     });
   }
 
   const traceMag = {
     x: f5, y: mag5, mode: 'markers', type: 'scatter',
-    marker: { size: 8, color: '#e4f222' },
+    marker: { size: 8, color: '#22d3ee', line: { color: '#030712', width: 1.5 } },
     xaxis: 'x', yaxis: 'y'
   };
 
   const tracePhase = {
     x: f5, y: phase5, mode: 'markers', type: 'scatter',
-    marker: { size: 8, color: '#c084fc' },
+    marker: { size: 8, color: '#c084fc', line: { color: '#030712', width: 1.5 } },
     xaxis: 'x2', yaxis: 'y2'
   };
 
@@ -740,12 +740,12 @@ function renderPlotSlide5() {
       {
         xref: 'paper', yref: 'paper', x: 0.22, y: 1.08,
         text: '<b>Espectro de Amplitud</b>', showarrow: false,
-        font: { color: '#00f2fe', size: 13 }
+        font: { color: '#06b6d4', size: 13, family: 'Inter, sans-serif' }
       },
       {
         xref: 'paper', yref: 'paper', x: 0.78, y: 1.08,
         text: '<b>Espectro de Fase</b>', showarrow: false,
-        font: { color: '#c084fc', size: 13 }
+        font: { color: '#c084fc', size: 13, family: 'Inter, sans-serif' }
       }
     ],
     margin: { l: 60, r: 25, t: 45, b: 45 }
@@ -785,24 +785,24 @@ function renderPlotSlide6() {
     stemLinesMag.push({
       type: 'line', xref: 'x', yref: 'y',
       x0: f5[k], y0: 0, x1: f5[k], y1: mag5[k],
-      line: { color: '#00f2fe', width: 3 }
+      line: { color: '#06b6d4', width: 3.5 }
     });
     stemLinesPhase.push({
       type: 'line', xref: 'x2', yref: 'y2',
       x0: f5[k], y0: 0, x1: f5[k], y1: phase5[k],
-      line: { color: '#a855f7', width: 3 }
+      line: { color: '#a855f7', width: 3.5 }
     });
   }
 
   const traceMag = {
     x: f5, y: mag5, mode: 'markers', type: 'scatter',
-    marker: { size: 8, color: '#e4f222' },
+    marker: { size: 8, color: '#22d3ee', line: { color: '#030712', width: 1.5 } },
     xaxis: 'x', yaxis: 'y', name: 'Amplitud'
   };
 
   const tracePhase = {
     x: f5, y: phase5, mode: 'markers', type: 'scatter',
-    marker: { size: 8, color: '#c084fc' },
+    marker: { size: 8, color: '#c084fc', line: { color: '#030712', width: 1.5 } },
     xaxis: 'x2', yaxis: 'y2', name: 'Fase'
   };
 
@@ -818,12 +818,12 @@ function renderPlotSlide6() {
       {
         xref: 'paper', yref: 'paper', x: 0.22, y: 1.08,
         text: '<b>Espectro de Amplitud (' + (p7Mode === 'all' ? '20/40/60' : p7Mode) + ')</b>',
-        showarrow: false, font: { color: '#00f2fe', size: 13 }
+        showarrow: false, font: { color: '#06b6d4', size: 13, family: 'Inter, sans-serif' }
       },
       {
         xref: 'paper', yref: 'paper', x: 0.78, y: 1.08,
         text: '<b>Espectro de Fase (' + (p7Mode === 'all' ? '20/40/60' : p7Mode) + ')</b>',
-        showarrow: false, font: { color: '#c084fc', size: 13 }
+        showarrow: false, font: { color: '#c084fc', size: 13, family: 'Inter, sans-serif' }
       }
     ],
     margin: { l: 60, r: 25, t: 45, b: 45 }
@@ -846,13 +846,13 @@ function renderPlotSlide7() {
   const traceSq = {
     x: harmOrders, y: sqDecay,
     mode: 'lines+markers', name: 'Onda Cuadrada (~1/n)',
-    line: { color: '#00f2fe', width: 2.5 }, marker: { size: 7, color: '#00f2fe' }
+    line: { color: '#06b6d4', width: 2.5 }, marker: { size: 7, color: '#22d3ee' }
   };
 
   const traceRect = {
     x: harmOrders, y: rectDecay,
     mode: 'lines+markers', name: 'Rectificador (~1/n²)',
-    line: { color: '#e4f222', width: 2.5 }, marker: { size: 7, color: '#e4f222' }
+    line: { color: '#10b981', width: 2.5 }, marker: { size: 7, color: '#34d399' }
   };
 
   const layout = {
@@ -985,12 +985,12 @@ function toggleFullscreen() {
 document.getElementById('btn-fullscreen').addEventListener('click', toggleFullscreen);
 
 // =========================================================================
-// 5. ANIMACIÓN DE ONDAS DESENFOCADAS EN EL FONDO (CANVAS)
+// 5. ANIMACIÓN DE ONDAS DESENFOCADAS EN EL FONDO (CANVAS DSP)
 // =========================================================================
 const canvas = document.getElementById('bg-signals-canvas');
 if (canvas) {
   const ctx = canvas.getContext('2d');
-  let waveOffset = 0;
+  let step = 0;
 
   function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -1001,42 +1001,63 @@ if (canvas) {
 
   function drawBlurredSignals() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    step += 0.016;
+
     const w = canvas.width;
     const h = canvas.height;
-    const cy1 = h * 0.35;
-    const cy2 = h * 0.70;
+    const centerY = h * 0.48;
 
-    // Onda 1: Armónicos de Fourier en tonos Cian y Verde Neón
-    ctx.lineWidth = 4;
-    for (let harm = 1; harm <= 5; harm += 2) {
+    // 1. Barras espectrales suaves en la base inferior (Dominio frecuencial)
+    const numBars = 36;
+    const barWidth = w / (numBars * 1.55);
+    const gap = barWidth * 0.5;
+    const startX = (w - (numBars * (barWidth + gap))) / 2;
+
+    for (let i = 0; i < numBars; i++) {
+      const barHeight =
+        Math.sin(step * 1.3 + i * 0.26) * 45 +
+        Math.cos(step * 0.7 + i * 0.14) * 30 +
+        60;
+
+      const bx = startX + i * (barWidth + gap);
+      const by = h - barHeight - 15;
+
+      const gradient = ctx.createLinearGradient(0, by, 0, h);
+      gradient.addColorStop(0, 'rgba(6, 182, 212, 0.25)');
+      gradient.addColorStop(0.5, 'rgba(59, 130, 246, 0.12)');
+      gradient.addColorStop(1, 'rgba(3, 7, 18, 0)');
+
+      ctx.fillStyle = gradient;
       ctx.beginPath();
-      ctx.strokeStyle = harm === 1 ? 'rgba(0, 242, 254, 0.45)' : 'rgba(228, 242, 34, 0.3)';
-      for (let x = 0; x < w; x += 8) {
-        const angle = (x / w) * Math.PI * 4 * harm + waveOffset * harm;
-        const y = cy1 + Math.sin(angle) * (80 / harm);
+      if (ctx.roundRect) {
+        ctx.roundRect(bx, by, barWidth, barHeight, [6, 6, 0, 0]);
+      } else {
+        ctx.rect(bx, by, barWidth, barHeight);
+      }
+      ctx.fill();
+    }
+
+    // 2. Ondas armónicas sinusoidales superpuestas (Fasores en tiempo)
+    const waves = [
+      { freq: 0.007, amp: 65, speed: 0.02, color: 'rgba(6, 182, 212, 0.4)', width: 3 },
+      { freq: 0.013, amp: 44, speed: -0.016, color: 'rgba(59, 130, 246, 0.35)', width: 2.5 },
+      { freq: 0.021, amp: 28, speed: 0.025, color: 'rgba(16, 185, 129, 0.28)', width: 2 },
+      { freq: 0.032, amp: 18, speed: -0.02, color: 'rgba(168, 85, 247, 0.25)', width: 1.8 }
+    ];
+
+    waves.forEach(wave => {
+      ctx.beginPath();
+      ctx.lineWidth = wave.width;
+      ctx.strokeStyle = wave.color;
+
+      for (let x = 0; x < w; x += 4) {
+        const y = centerY + Math.sin(x * wave.freq + step * (wave.speed * 85)) * wave.amp;
         if (x === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
       ctx.stroke();
-    }
+    });
 
-    // Onda 2: Onda Cuadrada Sintetizada en el Fondo
-    ctx.beginPath();
-    ctx.lineWidth = 6;
-    ctx.strokeStyle = 'rgba(99, 102, 241, 0.35)';
-    for (let x = 0; x < w; x += 6) {
-      let sumY = 0;
-      for (let harm = 1; harm <= 7; harm += 2) {
-        const angle = (x / w) * Math.PI * 3 * harm - waveOffset * harm * 0.8;
-        sumY += (Math.sin(angle) / harm) * 110;
-      }
-      const y = cy2 + sumY;
-      if (x === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-
-    waveOffset += 0.012;
     requestAnimationFrame(drawBlurredSignals);
   }
   drawBlurredSignals();
