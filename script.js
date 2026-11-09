@@ -520,7 +520,12 @@ function renderPlotSlide2(M) {
   const layout = {
     ...plotlyLayoutBase,
     showlegend: true,
-    legend: { orientation: 'h', y: 1.15, x: 0.1, font: { color: '#9ca3af' } },
+    legend: {
+      orientation: 'h',
+      x: 1, xanchor: 'right',
+      y: 1.14, yanchor: 'bottom',
+      font: { color: '#cbd5e1', size: 11, family: 'Inter, sans-serif' }
+    },
     xaxis: { ...axisConfig, title: 'tiempo (s)', range: [0, 1 / FO] },
     yaxis: { ...axisConfig, title: 'Volts', range: [-1.25 * AMP, 1.25 * AMP] },
     margin: { l: 60, r: 25, t: 40, b: 45 }
@@ -619,7 +624,12 @@ function renderPlotSlide3() {
     const layout = {
       ...plotlyLayoutBase,
       showlegend: true,
-      legend: { orientation: 'h', y: 1.15, x: 0.1 },
+      legend: {
+        orientation: 'h',
+        x: 1, xanchor: 'right',
+        y: 1.14, yanchor: 'bottom',
+        font: { color: '#cbd5e1', size: 11, family: 'Inter, sans-serif' }
+      },
       xaxis: { ...axisConfig, title: 'tiempo (s)', range: [0, 1 / FO] },
       yaxis: { ...axisConfig, title: 'Volts', range: [-1.25 * AMP, 1.25 * AMP] },
       margin: { l: 60, r: 25, t: 40, b: 45 }
@@ -655,19 +665,28 @@ function renderPlotSlide4() {
     const layout = {
       ...plotlyLayoutBase,
       showlegend: true,
-      legend: { orientation: 'h', y: 1.15, x: 0.1 },
+      legend: {
+        orientation: 'h',
+        x: 1, xanchor: 'right',
+        y: 1.14, yanchor: 'bottom',
+        font: { color: '#cbd5e1', size: 11, family: 'Inter, sans-serif' }
+      },
       xaxis: { ...axisConfig, title: 'tiempo (s)', range: [0, 1 / FO] },
       yaxis: { ...axisConfig, title: 'Volts', range: [-1.25 * AMP, 1.25 * AMP] },
       annotations: [
         {
-          x: 0.0003, y: 185.2, xref: 'x', yref: 'y',
-          text: 'Sobrepico de Gibbs: 185.21 V (+8.95%)',
-          showarrow: true, arrowhead: 2, ax: 45, ay: -35,
-          font: { color: '#fde047', size: 12, weight: 700 },
-          arrowcolor: '#facc15'
+          x: 0.00032, y: 185.2, xref: 'x', yref: 'y',
+          text: '<b>Sobrepico de Gibbs: 185.21 V (+8.95%)</b>',
+          showarrow: true, arrowhead: 2, arrowcolor: '#facc15', arrowwidth: 1.5,
+          ax: 65, ay: -26,
+          font: { color: '#fde047', size: 11, family: 'Inter, sans-serif' },
+          bgcolor: 'rgba(11, 15, 25, 0.9)',
+          bordercolor: 'rgba(250, 204, 21, 0.5)',
+          borderwidth: 1,
+          borderpad: 4
         }
       ],
-      margin: { l: 60, r: 25, t: 40, b: 45 }
+      margin: { l: 60, r: 25, t: 45, b: 45 }
     };
     Plotly.react('plot-slide-4', [traceOrig, traceRecon], layout, { responsive: true, displayModeBar: false });
   } else {
@@ -732,23 +751,36 @@ function renderPlotSlide5() {
     ...plotlyLayoutBase,
     grid: { rows: 1, columns: 2, pattern: 'independent' },
     shapes: [...stemLinesMag, ...stemLinesPhase],
-    xaxis: { ...axisConfig, title: 'Frecuencia, Hz', range: [-20, 300] },
+    xaxis: { ...axisConfig, title: 'Frecuencia (Hz)', range: [-20, 280] },
     yaxis: { ...axisConfig, title: 'Amplitud (V)', range: [0, 130] },
-    xaxis2: { ...axisConfig, title: 'Frecuencia, Hz', range: [-20, 300] },
+    xaxis2: { ...axisConfig, title: 'Frecuencia (Hz)', range: [-20, 280] },
     yaxis2: { ...axisConfig, title: 'Fase (rad)', range: [0, 3.5] },
     annotations: [
       {
-        xref: 'paper', yref: 'paper', x: 0.22, y: 1.08,
+        xref: 'x domain', yref: 'y domain',
+        x: 0.5, y: 1.10, xanchor: 'center', yanchor: 'bottom',
         text: '<b>Espectro de Amplitud</b>', showarrow: false,
-        font: { color: '#06b6d4', size: 13, family: 'Inter, sans-serif' }
+        font: { color: '#06b6d4', size: 12, family: 'Inter, sans-serif' }
       },
       {
-        xref: 'paper', yref: 'paper', x: 0.78, y: 1.08,
+        xref: 'x2 domain', yref: 'y2 domain',
+        x: 0.5, y: 1.10, xanchor: 'center', yanchor: 'bottom',
         text: '<b>Espectro de Fase</b>', showarrow: false,
-        font: { color: '#c084fc', size: 13, family: 'Inter, sans-serif' }
+        font: { color: '#c084fc', size: 12, family: 'Inter, sans-serif' }
+      },
+      {
+        x: 0, y: 107.53, xref: 'x', yref: 'y',
+        text: '<b>V_dc = 107.53 V</b>', showarrow: true, arrowhead: 2,
+        ax: 35, ay: -25,
+        font: { color: '#fde047', size: 10, family: 'Inter, sans-serif' },
+        arrowcolor: '#facc15',
+        bgcolor: 'rgba(11, 15, 25, 0.9)',
+        bordercolor: 'rgba(250, 204, 21, 0.5)',
+        borderwidth: 1,
+        borderpad: 3
       }
     ],
-    margin: { l: 60, r: 25, t: 45, b: 45 }
+    margin: { l: 55, r: 25, t: 45, b: 45 }
   };
 
   Plotly.react('plot-slide-5', [traceMag, tracePhase], layout, { responsive: true, displayModeBar: false });
@@ -819,7 +851,12 @@ function renderPlotSlide6() {
     const layout = {
       ...plotlyLayoutBase,
       showlegend: true,
-      legend: { orientation: 'h', y: 1.16, x: 0.02, font: { color: '#cbd5e1', size: 10 } },
+      legend: {
+        orientation: 'h',
+        x: 0.5, xanchor: 'center',
+        y: -0.22, yanchor: 'top',
+        font: { color: '#cbd5e1', size: 10, family: 'Inter, sans-serif' }
+      },
       grid: { rows: 1, columns: 2, pattern: 'independent' },
       shapes: [...stemLinesComp, ...stemLinesExt],
       xaxis: { ...axisConfig, title: 'Frecuencia (Hz)', range: [-20, 280] },
@@ -828,17 +865,19 @@ function renderPlotSlide6() {
       yaxis2: { ...axisConfig, title: 'Amplitud (V)', range: [0, 130] },
       annotations: [
         {
-          xref: 'paper', yref: 'paper', x: 0.22, y: 1.08,
+          xref: 'x domain', yref: 'y domain',
+          x: 0.5, y: 1.10, xanchor: 'center', yanchor: 'bottom',
           text: '<b>Invarianza de los Primeros 5 Armónicos</b>', showarrow: false,
-          font: { color: '#facc15', size: 12, family: 'Inter, sans-serif' }
+          font: { color: '#facc15', size: 11, family: 'Inter, sans-serif' }
         },
         {
-          xref: 'paper', yref: 'paper', x: 0.82, y: 1.08,
-          text: '<b>Espectro Completo Extendido (0 - 3.54 kHz)</b>', showarrow: false,
-          font: { color: '#06b6d4', size: 12, family: 'Inter, sans-serif' }
+          xref: 'x2 domain', yref: 'y2 domain',
+          x: 0.5, y: 1.10, xanchor: 'center', yanchor: 'bottom',
+          text: '<b>Espectro Completo (0 - 3.54 kHz)</b>', showarrow: false,
+          font: { color: '#06b6d4', size: 11, family: 'Inter, sans-serif' }
         }
       ],
-      margin: { l: 55, r: 25, t: 45, b: 45 }
+      margin: { l: 55, r: 25, t: 45, b: 65 }
     };
 
     Plotly.react('plot-slide-6', [trace20, trace40, trace60, traceExt], layout, { responsive: true, displayModeBar: false });
@@ -885,27 +924,33 @@ function renderPlotSlide6() {
       showlegend: false,
       grid: { rows: 1, columns: 2, pattern: 'independent' },
       shapes: [...stemLinesMag, ...stemLinesPhase],
-      xaxis: { ...axisConfig, title: 'Frecuencia, Hz', range: [-20, 300] },
+      xaxis: { ...axisConfig, title: 'Frecuencia (Hz)', range: [-20, 280] },
       yaxis: { ...axisConfig, title: 'Amplitud (V)', range: [0, 130] },
-      xaxis2: { ...axisConfig, title: 'Frecuencia, Hz', range: [-20, 300] },
+      xaxis2: { ...axisConfig, title: 'Frecuencia (Hz)', range: [-20, 280] },
       yaxis2: { ...axisConfig, title: 'Fase (rad)', range: [0, 3.5] },
       annotations: [
         {
-          xref: 'paper', yref: 'paper', x: 0.22, y: 1.08,
-          text: `<b>Espectro de Amplitud (num = ${p7Mode})</b>`, showarrow: false,
-          font: { color: '#facc15', size: 13, family: 'Inter, sans-serif' }
+          xref: 'x domain', yref: 'y domain',
+          x: 0.5, y: 1.10, xanchor: 'center', yanchor: 'bottom',
+          text: '<b>Espectro de Amplitud</b>', showarrow: false,
+          font: { color: '#facc15', size: 12, family: 'Inter, sans-serif' }
         },
         {
-          xref: 'paper', yref: 'paper', x: 0.78, y: 1.08,
-          text: `<b>Espectro de Fase (num = ${p7Mode})</b>`, showarrow: false,
-          font: { color: '#c084fc', size: 13, family: 'Inter, sans-serif' }
+          xref: 'x2 domain', yref: 'y2 domain',
+          x: 0.5, y: 1.10, xanchor: 'center', yanchor: 'bottom',
+          text: '<b>Espectro de Fase</b>', showarrow: false,
+          font: { color: '#c084fc', size: 12, family: 'Inter, sans-serif' }
         },
         {
           x: 0, y: 107.53, xref: 'x', yref: 'y',
-          text: `V_dc = 107.5344 V`, showarrow: true, arrowhead: 2,
-          ax: 40, ay: -30,
-          font: { color: '#fde047', size: 11, weight: 700 },
-          arrowcolor: '#facc15'
+          text: '<b>V_dc = 107.53 V</b>', showarrow: true, arrowhead: 2,
+          ax: 35, ay: -25,
+          font: { color: '#fde047', size: 10, family: 'Inter, sans-serif' },
+          arrowcolor: '#facc15',
+          bgcolor: 'rgba(11, 15, 25, 0.9)',
+          bordercolor: 'rgba(250, 204, 21, 0.5)',
+          borderwidth: 1,
+          borderpad: 3
         }
       ],
       margin: { l: 55, r: 25, t: 45, b: 45 }
@@ -941,7 +986,12 @@ function renderPlotSlide7() {
   const layout = {
     ...plotlyLayoutBase,
     showlegend: true,
-    legend: { orientation: 'h', y: 1.15, x: 0.1, font: { color: '#9ca3af' } },
+    legend: {
+      orientation: 'h',
+      x: 1, xanchor: 'right',
+      y: 1.14, yanchor: 'bottom',
+      font: { color: '#cbd5e1', size: 11, family: 'Inter, sans-serif' }
+    },
     xaxis: { ...axisConfig, title: 'Orden Armónico (n)', range: [0, 16] },
     yaxis: { ...axisConfig, title: 'Energía Relativa Normalizada (%)', range: [-2, 105] },
     margin: { l: 60, r: 25, t: 40, b: 45 }

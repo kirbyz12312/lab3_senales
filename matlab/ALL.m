@@ -437,6 +437,7 @@ num = 60;
 c = zeros(1, num);
 cint = zeros(1, N);
 
+
 for i = 1:num
     for m = 1:N
         cint(m) = exp(-1j*2*pi*(i-1)*m/N)*g(m);
