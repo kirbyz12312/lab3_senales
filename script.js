@@ -140,13 +140,23 @@ end
 n = [0 1:M];
 c = [a0 sqrt(a.^2 + b.^2)];
 
-% Reconstrucción temporal vf
+% 1. Gráfica de espectro discreto (hasta 1200 Hz)
+figure('Name', 'Punto 5a - Espectro M=20');
+subplot(2, 1, 1); area(t, v); grid on;
+xlabel('tiempo'); ylabel('Volts');
+subplot(2, 1, 2); stem(n*fo, c); grid on;
+xlabel('frecuencia (Hz)'); ylabel('amplitud');
+
+% 2. Gráfica de aproximación temporal vf(t)
+figure('Name', 'Punto 5a - Aproximación M=20');
 vf = (a0/T)*ones(1, N);
 for i = 1:M
     vf = vf + a(i)*cos(i*wo*t) + b(i)*sin(i*wo*t);
-    plot(t, v, 'c', t, vf, 'b'); grid on;
-    axis([0 1/fo -1.25*A 1.25*A]);
-end`,
+end
+plot(t, v, 'c', t, vf, 'b'); grid on;
+xlabel('tiempo'); ylabel('Volts');
+title('Aproximación armónica con M = 20');
+axis([0 1/fo -1.25*A 1.25*A]);`,
     python: `# PUNTO 5a: Onda cuadrada con M = 20 armónicos
 M = 20
 a0 = trapz(v, t)
@@ -160,12 +170,27 @@ for i in range(1, M + 1):
 n = np.arange(0, M + 1)
 c = np.concatenate(([a0], np.sqrt(a**2 + b**2)))
 
+# 1. Gráfica de señal y espectro discreto
+fig1, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 5))
+ax1.fill_between(t, v, step="pre", color="#1f77b4", alpha=0.7)
+ax1.set_xlim(0, 1.0 / fo); ax1.set_ylim(-1.25 * A, 1.25 * A)
+ax1.set_xlabel('tiempo'); ax1.set_ylabel('Volts'); ax1.grid(True)
+
+ax2.stem(n * fo, c, basefmt=" ")
+ax2.set_xlabel('frecuencia (Hz)'); ax2.set_ylabel('amplitud'); ax2.grid(True)
+plt.tight_layout()
+
+# 2. Gráfica de aproximación temporal
 vf = (a0 / T) * np.ones(N)
 for i in range(1, M + 1):
     vf += a[i - 1] * np.cos(i * wo * t) + b[i - 1] * np.sin(i * wo * t)
 
+fig2, ax = plt.subplots(figsize=(8, 4.5))
 ax.plot(t, v, 'c', label='v(t) Original')
-ax.plot(t, vf, 'b', label=f'vf(t) Aproximada (M = 20)')`
+ax.plot(t, vf, 'b', label=f'vf(t) Aproximada (M = {M})')
+ax.set_xlim(0, 1.0 / fo); ax.set_ylim(-1.25 * A, 1.25 * A)
+ax.set_xlabel('tiempo'); ax.set_ylabel('Volts'); ax.grid(True)
+ax.legend(loc='upper right'); plt.tight_layout(); plt.show()`
   },
 
   code4: {
@@ -182,7 +207,15 @@ end
 n = [0 1:M];
 c = [a0 sqrt(a.^2 + b.^2)];
 
-% Reconstrucción y observación de Fenómeno de Gibbs
+% 1. Gráfica de espectro discreto extendido (hasta 3000 Hz)
+figure('Name', 'Punto 5b - Espectro M=50');
+subplot(2, 1, 1); area(t, v); grid on;
+xlabel('tiempo'); ylabel('Volts');
+subplot(2, 1, 2); stem(n*fo, c); grid on;
+xlabel('frecuencia (Hz)'); ylabel('amplitud');
+
+% 2. Reconstrucción y observación del Fenómeno de Gibbs
+figure('Name', 'Punto 5b - Aproximación M=50 y Gibbs');
 vf = (a0/T)*ones(1, N);
 for i = 1:M
     vf = vf + a(i)*cos(i*wo*t) + b(i)*sin(i*wo*t);
@@ -190,7 +223,7 @@ end
 
 plot(t, v, 'c', t, vf, 'b'); grid on;
 xlabel('tiempo'); ylabel('Volts');
-title('Aproximación M=50: Sobreoscilación de Gibbs');
+title('Aproximación M=50: Sobreoscilación de Gibbs (~8.95%)');
 axis([0 1/fo -1.25*A 1.25*A]);`,
     python: `# PUNTO 5b: Onda cuadrada con M = 50 armónicos
 M = 50
@@ -205,13 +238,28 @@ for i in range(1, M + 1):
 n = np.arange(0, M + 1)
 c = np.concatenate(([a0], np.sqrt(a**2 + b**2)))
 
+# 1. Gráfica de espectro discreto extendido (0 - 3000 Hz)
+fig1, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 5))
+ax1.fill_between(t, v, step="pre", color="#1f77b4", alpha=0.7)
+ax1.set_xlim(0, 1.0 / fo); ax1.set_ylim(-1.25 * A, 1.25 * A)
+ax1.set_xlabel('tiempo'); ax1.set_ylabel('Volts'); ax1.grid(True)
+
+ax2.stem(n * fo, c, basefmt=" ")
+ax2.set_xlabel('frecuencia (Hz)'); ax2.set_ylabel('amplitud'); ax2.grid(True)
+plt.tight_layout()
+
+# 2. Reconstrucción temporal y sobrepico de Gibbs
 vf = (a0 / T) * np.ones(N)
 for i in range(1, M + 1):
     vf += a[i - 1] * np.cos(i * wo * t) + b[i - 1] * np.sin(i * wo * t)
 
+fig2, ax = plt.subplots(figsize=(8, 4.5))
 ax.plot(t, v, 'c', label='v(t) Original')
-ax.plot(t, vf, 'b', label=f'vf(t) Aproximada (M = 50)')
-ax.set_title('Fenómeno de Gibbs: Sobrepico persistente de ~8.95%')`
+ax.plot(t, vf, 'b', label=f'vf(t) Aproximada (M = {M})')
+ax.set_xlim(0, 1.0 / fo); ax.set_ylim(-1.25 * A, 1.25 * A)
+ax.set_xlabel('tiempo'); ax.set_ylabel('Volts')
+ax.set_title('Fenómeno de Gibbs: Sobrepico persistente de ~8.95%')
+ax.grid(True); ax.legend(loc='upper right'); plt.tight_layout(); plt.show()`
   },
 
   code5: {
@@ -239,7 +287,9 @@ cphase = angle(c);
 disp('valor dc de g(t)'); 
 cmag(1) % Imprime ~107.5344 V
 
+% Plotea el espectro de magnitud y fase (primeros 5 armónicos)
 f = (0:num-1)*60;
+figure('Name', 'Punto 6a - Rectificador (num = 20 armónicos)');
 subplot(1, 2, 1); stem(f(1:5), cmag(1:5), 'filled');
 title('Espectro de Amplitud'); xlabel('Frecuencia, Hz'); grid on;
 
@@ -257,7 +307,7 @@ num = 20
 c = np.zeros(num, dtype=complex)
 m_vec = np.arange(1, N + 1)
 
-for i = 1:num
+for i in range(1, num + 1):
     cint = np.exp(-1j * 2.0 * np.pi * (i - 1) * m_vec / N) * g
     c[i - 1] = np.sum(cint) / N
 
@@ -265,39 +315,71 @@ cmag = np.abs(c)
 cphase = np.angle(c)
 
 print("valor dc de g(t)")
-print(f"ans =\\n   {cmag[0]:.4f}")  # ~107.5344`
+print(f"ans =\n   {cmag[0]:.4f}")  # ~107.5344 V
+
+# Plotea el espectro de magnitud y fase (primeros 5 armónicos)
+f = np.arange(0, num) * 60.0
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.5, 4.2))
+
+ax1.stem(f[:5], cmag[:5], basefmt=" ")
+ax1.set_title('Espectro de Amplitud')
+ax1.set_xlabel('Frecuencia, Hz')
+ax1.set_xlim(-20, 300); ax1.set_ylim(0, 130); ax1.grid(True)
+
+ax2.stem(f[:5], cphase[:5], basefmt=" ")
+ax2.set_title('Espectro de Fase')
+ax2.set_xlabel('Frecuencia, Hz')
+ax2.set_xlim(-20, 300); ax2.set_ylim(0, 3.5); ax2.grid(True)
+
+plt.tight_layout()
+plt.show()`
   },
 
   code6: {
     matlab: `% PUNTO 7: Rectificador con num = 40 y num = 60 armónicos
-% Bloque para num = 40
-num = 40; c = zeros(1, num);
-for i = 1:num
-    for m = 1:N; cint(m) = exp(-1j*2*pi*(i-1)*m/N)*g(m); end
-    c(i) = sum(cint)/N;
-end
-disp('valor dc de g(t) con 40:'); cmag(1) % 107.5344
-
-% Bloque para num = 60
-num = 60; c = zeros(1, num);
-for i = 1:num
-    for m = 1:N; cint(m) = exp(-1j*2*pi*(i-1)*m/N)*g(m); end
-    c(i) = sum(cint)/N;
-end
-disp('valor dc de g(t) con 60:'); cmag(1) % 107.5344 (Constante)`,
+% Cálculo y ploteo modular de espectros para num = 40 y 60
+for num = [40, 60]
+    c = zeros(1, num);
+    for i = 1:num
+        for m = 1:N; cint(m) = exp(-1j*2*pi*(i-1)*m/N)*g(m); end
+        c(i) = sum(cint)/N;
+    end
+    cmag = abs(c); cphase = angle(c);
+    fprintf('num = %d -> Valor DC: %.4f V\n', num, cmag(1));
+    
+    % Ploteo de espectros de magnitud y fase
+    f = (0:num-1)*60;
+    figure('Name', sprintf('Rectificador (num = %d armónicos)', num));
+    subplot(1, 2, 1); stem(f(1:5), cmag(1:5), 'filled');
+    title(sprintf('Amplitud (num=%d)', num)); xlabel('Frecuencia, Hz'); grid on;
+    
+    subplot(1, 2, 2); stem(f(1:5), cphase(1:5), 'filled');
+    title(sprintf('Fase (num=%d)', num)); xlabel('Frecuencia, Hz'); grid on;
+end`,
     python: `# PUNTO 7: Rectificador con num = 40 y num = 60
-def _rectificador(num):
+def rectificador(num):
     c = np.zeros(num, dtype=complex)
     for i in range(1, num + 1):
         cint = np.exp(-1j * 2.0 * np.pi * (i - 1) * m_vec / N) * g
         c[i - 1] = np.sum(cint) / N
     return np.abs(c), np.angle(c)
 
-cmag40, _ = _rectificador(40)
-print(f"num=40 -> DC: {cmag40[0]:.4f}")  # 107.5344
-
-cmag60, _ = _rectificador(60)
-print(f"num=60 -> DC: {cmag60[0]:.4f}")  # 107.5344`
+for num in [40, 60]:
+    cmag, cphase = rectificador(num)
+    print(f"num = {num} -> Valor DC: {cmag[0]:.4f} V")
+    
+    # Ploteo de espectros de magnitud y fase
+    f = np.arange(0, num) * 60.0
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.5, 4))
+    ax1.stem(f[:5], cmag[:5], basefmt=" ")
+    ax1.set_title(f'Amplitud (num = {num})')
+    ax1.set_xlabel('Frecuencia, Hz'); ax1.grid(True)
+    
+    ax2.stem(f[:5], cphase[:5], basefmt=" ")
+    ax2.set_title(f'Fase (num = {num})')
+    ax2.set_xlabel('Frecuencia, Hz'); ax2.grid(True)
+    plt.tight_layout()
+    plt.show()`
   }
 };
 
@@ -309,7 +391,7 @@ const activeTabs = {
 function highlightSyntax(code) {
   const esc = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const kwdReg = new RegExp('\\b(for|end|if|else|def|import|from|as|return|in|range|while|try|except|pass)\\b', 'g');
-  const funReg = new RegExp('\\b(trapz|linspace|zeros|ones|sin|cos|sqrt|abs|exp|sum|length|angle|subplot|figure|area|stem|plot|title|xlabel|ylabel|grid|axis|movie|getframe|drawnow|disp|print)\\b', 'g');
+  const funReg = new RegExp('\\b(trapz|trapezoid|linspace|zeros|ones|sin|cos|sqrt|abs|exp|sum|length|len|angle|subplot|subplots|figure|area|stem|plot|title|xlabel|ylabel|grid|axis|movie|getframe|drawnow|disp|print|fill_between|tight_layout|show|savefig|legend|set_xlim|set_ylim|set_xlabel|set_ylabel|set_title|fprintf)\\b', 'g');
   const numReg = new RegExp('\\b(\\d+(?:\\.\\d+)?)\\b', 'g');
   const strReg = new RegExp('(\'[^\'\\r\\n]*\')', 'g');
 
